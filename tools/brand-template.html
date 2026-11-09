@@ -1,0 +1,1243 @@
+<!--
+  HOUSE BRAND GUIDE TEMPLATE (locked 2026-09-25)
+  Pattern: Texas Reconditioning / One Hop Golf brand.html structure.
+  Copy to new proto as brand.html, then replace every {{TOKEN}}.
+
+  Required tokens:
+    {{CLIENT_NAME}} {{CLIENT_SLUG}} {{TAGLINE}} {{DATE}}
+    {{AGENCY_NAME}} {{AGENCY_EMAIL}}
+    Agency: DPA jobs → DPA Branding / mike@dpabranding.com
+            Tribe Maker jobs → The Tribe Maker / matching email
+            Never default Tribe Maker on a DPA job.
+
+  Required sections (do not remove): Cover → Download bar → Logo (high-contrast
+  tiles) → Color Palette → Typography → Buttons → Voice & Tone → Usage rules →
+  matching Letter Brand Standards PDF.
+
+  Logo tiles: dark lockups on Paper/light; solid/white on Ink/Oxide/dark.
+  Low-contrast previews fail review. No emojis unless Mike asks.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{CLIENT_NAME}} — Brand Guide</title>
+  <link rel="icon" href="img/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;800;900&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #201E1D;
+      --oxide: #AE1800;
+      --signal: #EC3013;
+      --paper: #F3F2F2;
+      --grit300: #D7D3D3;
+      --grit700: #605D5D;
+      --white: #FFFFFF;
+      --seam: 2px solid var(--grit300);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Archivo", sans-serif;
+      font-weight: 400;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    a { color: var(--signal); text-decoration: none; }
+
+    /* Running header and footer. Chrome draws these in the page margin.
+       Do not also pass a Playwright headerTemplate with the same strings
+       or the PDF will print the header twice. */
+    @page {
+      size: letter;
+      margin: 0.75in 0.7in 0.7in 0.7in;
+      @top-left {
+        content: "{{CLIENT_NAME}} — Brand Guide";
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        color: #201E1D;
+      }
+      @top-right {
+        content: "{{AGENCY_NAME}}";
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        color: #201E1D;
+      }
+      @bottom-center {
+        content: counter(page);
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        color: #201E1D;
+      }
+    }
+
+    .home-link {
+      display: inline-block;
+      margin: 1.25rem 0 0 2rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Cover */
+    .cover {
+      min-height: calc(100vh - 3.25rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem 3rem;
+    }
+    .cover-card {
+      width: min(920px, 100%);
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 0;
+      padding: 2.75rem 2.5rem;
+    }
+    .cover-card img {
+      width: min(440px, 100%);
+      height: auto;
+      margin-bottom: 1.75rem;
+    }
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      margin-bottom: 0.7rem;
+    }
+    .cover-card h1 {
+      font-weight: 800;
+      font-size: clamp(2.4rem, 5vw, 3.5rem);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      color: var(--white);
+    }
+    .cover-kicker {
+      margin-top: 0.85rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.04em;
+      color: var(--paper);
+    }
+    .cover-tagline {
+      margin-top: 0.85rem;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .cover-credit {
+      margin-top: 1.6rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--grit300);
+    }
+    .cover-credit a { color: var(--white); text-decoration: none; }
+
+    /* Sections */
+    .section { padding: 4.5rem 0; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      margin-bottom: 0.45rem;
+    }
+    .section-title {
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.85rem;
+    }
+    .lede {
+      max-width: 68ch;
+      margin-bottom: 1.75rem;
+      color: var(--ink);
+    }
+
+    .panel {
+      background: var(--white);
+      border: var(--seam);
+      border-radius: 0;
+      padding: 2rem;
+    }
+
+    /* Logo */
+    .logo-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .logo-panel {
+      border-radius: 0;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-height: 280px;
+    }
+    .logo-panel.light {
+      background: var(--paper);
+      border: var(--seam);
+    }
+    .logo-panel.dark { background: var(--ink); }
+    .logo-panel img { width: min(420px, 100%); height: auto; }
+    .logo-panel-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .logo-panel.light .logo-panel-label { color: var(--grit700); }
+    .logo-panel.dark .logo-panel-label { color: var(--grit300); }
+
+    .spec-grid, .rules-grid, .voice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .spec h3, .rule-card h3, .voice-card h3, .btn-block h3 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      margin-bottom: 0.85rem;
+    }
+    .spec p, .rule-card li, .voice-card p, .note p, .btn-block p {
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .clear-frame {
+      display: inline-flex;
+      padding: 16px;
+      border: 1px dashed var(--oxide);
+      border-radius: 0;
+      margin-bottom: 1rem;
+    }
+    .clear-frame img { width: min(280px, 100%); height: auto; }
+    .min-sample {
+      width: 80px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    code.hex {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.84em;
+    }
+
+    .rule-list { list-style: none; }
+    .rule-list li {
+      position: relative;
+      padding: 0.5rem 0 0.5rem 1.35rem;
+      border-bottom: var(--seam);
+    }
+    .rule-list li:last-child { border-bottom: none; }
+    .rule-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.72rem;
+      width: 10px;
+      height: 10px;
+      background: var(--oxide);
+      border-radius: 0;
+    }
+    .rule-list.dont li::before {
+      background: transparent;
+      border: 2px solid var(--grit700);
+      width: 6px;
+      height: 6px;
+    }
+
+      .variation-block { margin-top: 2.5rem; }
+      .variation-intro {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .variation-block h3.block-title {
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.45rem;
+    }
+    .variation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .variation-card {
+      border: var(--seam);
+      border-radius: 0;
+      overflow: hidden;
+      background: var(--white);
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .variation-stage {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 160px;
+      padding: 1.75rem 1.5rem;
+    }
+    .variation-stage.paper { background: var(--paper); }
+    .variation-stage.ink { background: var(--ink); }
+    .variation-stage.oxide { background: var(--oxide); }
+    .variation-stage img {
+      width: auto;
+      max-width: 100%;
+      max-height: 110px;
+      height: auto;
+    }
+    .variation-meta { padding: 1.15rem 1.35rem 1.35rem; }
+    .variation-meta h3 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      margin-bottom: 0.35rem;
+    }
+    .variation-meta .file {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .variation-meta p { color: var(--ink); font-size: 0.92rem; }
+
+    /* Color */
+    .note {
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 0;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .note strong { color: var(--white); font-weight: 800; }
+    .note p { color: var(--paper); }
+    .ratio-bar {
+      display: flex;
+      height: 12px;
+      margin-top: 1.25rem;
+    }
+    .ratio-ink { background: var(--paper); flex: 70; }
+    .ratio-grit { background: var(--grit300); flex: 25; }
+    .ratio-red { background: var(--oxide); flex: 5; }
+    .ratio-label {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .ratio-item { font-size: 0.85rem; color: var(--grit300); }
+    .ratio-item strong { color: var(--white); font-weight: 800; }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.15rem;
+    }
+    .swatch-card {
+      background: var(--white);
+      border: var(--seam);
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .swatch-block { height: 108px; }
+    .swatch-block.edge { box-shadow: inset 0 -2px 0 var(--grit300); }
+    .swatch-info { padding: 1.15rem 1.25rem 1.3rem; }
+    .swatch-role {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      margin-bottom: 0.25rem;
+    }
+    .swatch-hex {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.35rem;
+    }
+    .swatch-info p { font-size: 0.88rem; color: var(--ink); }
+
+    /* Type */
+    .type-group { margin-bottom: 1.5rem; }
+    .type-group-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--oxide);
+      border-bottom: var(--seam);
+      padding-bottom: 0.45rem;
+      margin-bottom: 0.35rem;
+    }
+    .type-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 1.25rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: var(--seam);
+    }
+    .type-meta { font-size: 0.78rem; color: var(--grit700); line-height: 1.45; }
+    .type-meta strong { display: block; color: var(--ink); font-weight: 800; }
+    .render-display {
+      font-weight: 800;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .render-heading {
+      font-weight: 800;
+      font-size: clamp(1.45rem, 2.5vw, 2rem);
+      line-height: 1.1;
+    }
+    .render-label {
+      font-weight: 800;
+      font-size: 0.875rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grit700);
+    }
+    .render-text {
+      font-weight: 400;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 42rem;
+    }
+    .type-note { margin-top: 0.5rem; }
+    .type-note code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.84em;
+      background: var(--grit300);
+      padding: 0.1rem 0.35rem;
+    }
+
+    /* Buttons — specimens stay square */
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .btn {
+      display: inline-block;
+      font-family: "Archivo", sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 0;
+      border: 2px solid transparent;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: var(--signal);
+      color: var(--white);
+      border-color: var(--signal);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+    .btn-inline {
+      font-family: "Archivo", sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--signal);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+    }
+    .btn-block { margin-bottom: 1rem; }
+    .btn-block:last-child { margin-bottom: 0; }
+    .btn-block p { margin-top: 0.85rem; color: var(--grit700); font-size: 0.92rem; }
+    .code {
+      margin-top: 1.25rem;
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 0;
+      padding: 2rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    /* Voice */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.7rem;
+      border-radius: 0;
+      background: var(--paper);
+      color: var(--ink);
+      border: var(--seam);
+    }
+    .tag.off {
+      color: var(--grit700);
+      text-decoration: line-through;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .tagline-block {
+      margin-top: 1.25rem;
+      background: var(--ink);
+      border-radius: 0;
+      padding: 2rem 2.25rem;
+      border-left: 10px solid var(--oxide);
+    }
+    .tagline-block p {
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--white);
+      line-height: 1.25;
+    }
+    .tagline-block p + p { margin-top: 0.55rem; }
+    .tagline-block span {
+      display: block;
+      margin-top: 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--oxide);
+    }
+    .not-this { margin-top: 1.5rem; }
+    .not-this h3 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--grit700);
+      margin-bottom: 0.35rem;
+    }
+    .counter-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: var(--seam);
+    }
+    .counter-line:last-child { border-bottom: none; }
+    .x-mark {
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--grit700);
+      flex-shrink: 0;
+      margin-top: 0.35rem;
+      border-radius: 0;
+    }
+    .counter-line p {
+      font-size: 1rem;
+      color: var(--grit700);
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    .marker-list { margin-top: 0.5rem; border-top: var(--seam); }
+    .marker-item {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      padding: 0.85rem 0;
+      border-bottom: var(--seam);
+    }
+    .marker-item:last-child { border-bottom: none; }
+    .n-sq {
+      width: 10px;
+      height: 10px;
+      background: var(--oxide);
+      flex-shrink: 0;
+      margin-top: 0.4rem;
+      border-radius: 0;
+    }
+    .marker-item p { font-size: 0.95rem; }
+    .marker-item strong { font-weight: 800; }
+
+    .credit-line {
+      margin-top: 1.75rem;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    .credit-line a { color: var(--signal); }
+
+    .download-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem 0.5rem;
+    }
+    .download-bar.in-section {
+      max-width: none;
+      margin: 0 0 0.75rem;
+      padding: 0;
+    }
+    .pack-note {
+      max-width: 1080px;
+      margin: 0.35rem auto 0;
+      padding: 0 2rem 0.5rem;
+      font-size: 0.92rem;
+      color: var(--grit700);
+    }
+    .pack-note.in-section {
+      max-width: none;
+      margin: 0 0 1.25rem;
+      padding: 0;
+    }
+    .dl-file {
+      display: inline-block;
+      margin-top: 0.9rem;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+    }
+    .asset-print { display: none; }
+
+    @media (max-width: 800px) {
+      .logo-panels, .spec-grid, .rules-grid, .voice-grid, .color-grid, .variation-grid, .btn-row {
+        grid-template-columns: 1fr;
+      }
+      .type-row { grid-template-columns: 1fr; gap: 0.35rem; }
+      .container { padding: 0 1.25rem; }
+      .home-link { margin-left: 1.25rem; }
+      .download-bar, .pack-note { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .cover-card { padding: 2rem 1.35rem; }
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      html, body {
+        background: #ffffff;
+        color: #201E1D;
+        font-size: 10.5pt;
+        line-height: 1.45;
+      }
+      .cover {
+        min-height: 0;
+        height: 9.55in;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .cover-card {
+        width: 100%;
+        padding: 2.25rem;
+      }
+      .cover-card img { width: 3.6in; margin-bottom: 0.4in; }
+      .cover-card h1 { font-size: 32pt; }
+      .cover-tagline { font-size: 14pt; }
+      .logo-panels { grid-template-columns: 1fr 1fr; }
+      .spec-grid, .rules-grid, .voice-grid { grid-template-columns: 1fr 1fr; }
+      .color-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .btn-row { grid-template-columns: 1fr 1fr 1fr; }
+      .type-row { grid-template-columns: 130px 1fr; gap: 10pt; }
+      .section {
+        padding: 0;
+        break-before: page;
+        page-break-before: always;
+        break-inside: auto;
+        page-break-inside: auto;
+      }
+      .section-label,
+      .section-title,
+      .variation-block h3.block-title,
+      .type-group-label,
+      h3 {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+      .section-title + .lede,
+      .variation-block > .lede {
+        break-before: avoid;
+        page-break-before: avoid;
+      }
+      .logo-panel,
+      .spec,
+      .rule-card,
+      .swatch-card,
+      .voice-card,
+      .btn-block,
+      .tagline-block,
+      .note,
+      .type-row,
+      .variation-card,
+      .counter-line,
+      .marker-item,
+      img {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .variation-grid { grid-template-columns: 1fr 1fr; gap: 8pt; margin-top: 8pt; }
+      .variation-stage { min-height: 0; padding: 12pt 14pt 10pt; }
+      .variation-stage img { max-height: 44pt; }
+      .variation-meta { padding: 10pt 14pt 12pt; }
+      .variation-meta p, .variation-meta .file { font-size: 8.5pt; }
+      .variation-block { margin-top: 12pt; }
+      .variation-block h3.block-title { font-size: 16pt; margin-bottom: 2pt; }
+      .variation-block > .lede { margin-bottom: 6pt; }
+      .container { max-width: none; padding: 0; }
+      .section-title { font-size: 20pt; margin-bottom: 8pt; }
+      .lede { margin-bottom: 10pt; font-size: 10.5pt; }
+      .logo-panels { gap: 12pt; }
+      .logo-panel {
+        min-height: 0;
+        padding: 1.6rem 1.35rem;
+        gap: 12pt;
+      }
+      .logo-panel img { width: 3.1in; }
+      .rule-list li { padding: 0.22rem 0 0.22rem 1rem; }
+      .spec-grid, .rules-grid, .voice-grid { gap: 12pt; margin-top: 12pt; }
+      .panel, .note, .tagline-block, .btn-block, .swatch-info, .code {
+        padding: 1.35rem 1.4rem;
+      }
+      .logo-panel { padding: 1.5rem; }
+      .clear-frame { padding: 16px; margin-bottom: 6pt; }
+      .clear-frame img { width: 2.2in; }
+      .color-grid { gap: 8pt; }
+      .swatch-block { height: 64px; }
+      .swatch-info { padding: 0.75rem 0.9rem 0.9rem; }
+      .swatch-hex { font-size: 12pt; }
+      .type-row { padding: 7pt 0; }
+      .render-display { font-size: 26pt; }
+      .render-heading { font-size: 16pt; }
+      .render-text { font-size: 12pt; }
+      .btn-block { margin-bottom: 8pt; }
+      .btn-row { margin-bottom: 8pt; gap: 10pt; }
+      .code { margin-top: 8pt; font-size: 8pt; line-height: 1.45; padding: 1.1rem 1.2rem; }
+      .tagline-block { padding: 1.2rem 1.3rem; }
+      .tagline-block p { font-size: 13pt; }
+      .note { margin-bottom: 10pt; }
+      a { text-decoration: none; }
+      .home-link,
+      .download-bar,
+      .pack-note,
+      .dl-file { display: none !important; }
+      .asset-print {
+        display: block !important;
+        font-size: 9pt;
+        line-height: 1.4;
+        margin: 8pt 0 0;
+        color: #201E1D;
+      }
+      .asset-print-cover {
+        color: #D7D3D3;
+        margin-top: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="home-link" href="index.html">Prototype home</a>
+
+  <header class="cover">
+    <div class="cover-card">
+      <img src="img/logo-site.svg" alt="{{CLIENT_NAME}}" />
+      <p class="eyebrow">Visual identity standards</p>
+      <h1>{{CLIENT_NAME}}</h1>
+      <p class="cover-kicker">Brand Guide</p>
+      <p class="cover-tagline">{{TAGLINE}}</p>
+      <p class="cover-credit">{{DATE}}<br />Prepared by {{AGENCY_NAME}}<br /><a href="mailto:{{AGENCY_EMAIL}}">{{AGENCY_EMAIL}}</a></p>
+      <p class="asset-print asset-print-cover">Logo files are linked from this guide, one file at a time. There is no combined asset pack.</p>
+    </div>
+  </header>
+
+  <div class="download-bar">
+    <a class="btn btn-primary" href="{{CLIENT_SLUG}}-Brand-Standards.pdf" download>Download Brand Standards PDF</a>
+  </div>
+  <p class="pack-note">Each logo file has its own download in the logo section. There is no combined asset pack.</p>
+
+  <section class="section" id="logo">
+    <div class="container">
+      <p class="section-label">Section 01</p>
+      <h2 class="section-title">Logo</h2>
+      <p class="lede">The site header logo is the horizontal lockup. The light file sits on Ink. The dark file sits on Paper. A solid white file exists for Oxide and should be avoided unless necessary. One compact file places the mark above the wordmark. Files stay in <code>img/</code>. Do not redraw them. There is no wordmark-only file.</p>
+
+      <div class="download-bar in-section">
+        <a class="btn btn-primary" href="{{CLIENT_SLUG}}-Brand-Standards.pdf" download>Download Brand Standards PDF</a>
+      </div>
+      <p class="pack-note in-section">Download PNG or SVG from the card for that file. There is no combined asset pack.</p>
+      <p class="asset-print">Files: img/logo-site.svg, img/logo-site@2x.png, img/logo-site-dark.svg, img/logo-site-solid.svg, img/logo.svg, img/logo@2x.png, img/logo-default.png. Each file is linked on the guide page. There is no combined asset pack.</p>
+
+      <div class="logo-panels">
+        <div class="logo-panel dark">
+          <img src="img/logo-site.svg" alt="Primary lockup on Ink" />
+          <span class="logo-panel-label">On Ink — primary</span>
+        </div>
+        <div class="logo-panel light">
+          <img src="img/logo-site-dark.svg" alt="Dark lockup on Paper" />
+          <span class="logo-panel-label">On Paper — dark lockup</span>
+        </div>
+      </div>
+
+      <div class="spec-grid">
+        <div class="spec panel">
+          <h3>Clear space</h3>
+          <div class="clear-frame">
+            <img src="img/logo-site-dark.svg" alt="" />
+          </div>
+          <p>Maintain at least 16px clear space on all sides. The dashed box is that margin. The same margin applies to every file.</p>
+        </div>
+        <div class="spec panel">
+          <h3>Minimum size</h3>
+          <img class="min-sample" src="img/logo-site-dark.svg" alt="Lockup at the minimum display width" />
+          <p>Minimum display width is 80px. Shown here at that size. Below it, the wordmark fails. The same minimum applies to every file.</p>
+        </div>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card panel">
+          <h3>Do</h3>
+          <ul class="rule-list">
+            <li>Use <code>logo-site.svg</code> on Ink. It is the site header logo.</li>
+            <li>Use <code>logo-site-dark.svg</code> on Paper.</li>
+            <li>Keep at least 16px clear space on all sides.</li>
+            <li>Scale in proportion. Minimum display width is 80px.</li>
+            <li>Leave the file whole. Do not redraw it.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Do not</h3>
+          <ul class="rule-list dont">
+            <li>Do not stretch, rotate, recolor, or add effects.</li>
+            <li>Do not place the logo on photographic backgrounds or patterns.</li>
+            <li>Do not put the light lockup on Paper, or the dark lockup on Ink.</li>
+            <li>Do not use the solid white file except on Oxide, and avoid that unless necessary.</li>
+            <li>Do not separate the mark from the wordmark. There is no wordmark-only file.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="variation-block">
+        <div class="variation-intro">
+          <h3 class="block-title">Logo variations</h3>
+          <p class="lede">Light artwork sits on Ink. Dark artwork sits on Paper. The solid file is white and sits on Oxide. The compact file is the same mark and wordmark, with the mark above the words. These are the files in the repo. Nothing else is part of the set.</p>
+        </div>
+        <div class="variation-grid">
+          <article class="variation-card">
+            <div class="variation-stage ink">
+              <img src="img/logo-site.svg" alt="Primary lockup" />
+            </div>
+            <div class="variation-meta">
+              <h3>Primary lockup</h3>
+              <p class="file">img/logo-site.svg</p>
+              <p>Site header and other Ink grounds. Light wordmark with red.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo-site.svg" download>Download SVG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage ink">
+              <img src="img/logo-site@2x.png" alt="Primary lockup, 2x PNG" />
+            </div>
+            <div class="variation-meta">
+              <h3>Primary lockup, 2x PNG</h3>
+              <p class="file">img/logo-site@2x.png</p>
+              <p>Raster of the site lockup for places that cannot use SVG. On Ink.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo-site@2x.png" download>Download PNG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage paper">
+              <img src="img/logo-site-dark.svg" alt="Dark lockup" />
+            </div>
+            <div class="variation-meta">
+              <h3>Dark lockup</h3>
+              <p class="file">img/logo-site-dark.svg</p>
+              <p>On Paper and other light grounds.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo-site-dark.svg" download>Download SVG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage oxide">
+              <img src="img/logo-site-solid.svg" alt="Solid lockup on Oxide" />
+            </div>
+            <div class="variation-meta">
+              <h3>Solid lockup</h3>
+              <p class="file">img/logo-site-solid.svg</p>
+              <p>All-white artwork. On Oxide only. Avoid unless necessary.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo-site-solid.svg" download>Download SVG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage paper">
+              <img src="img/logo.svg" alt="Compact lockup" />
+            </div>
+            <div class="variation-meta">
+              <h3>Compact lockup</h3>
+              <p class="file">img/logo.svg</p>
+              <p>Mark above the wordmark. On Paper. Not a separate wordmark-only file.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo.svg" download>Download SVG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage paper">
+              <img src="img/logo@2x.png" alt="Compact lockup, 2x PNG" />
+            </div>
+            <div class="variation-meta">
+              <h3>Compact lockup, 2x PNG</h3>
+              <p class="file">img/logo@2x.png</p>
+              <p>Raster of the compact lockup. On Paper.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo@2x.png" download>Download PNG</a>
+            </div>
+          </article>
+          <article class="variation-card">
+            <div class="variation-stage paper">
+              <img src="img/logo-default.png" alt="Compact lockup, small PNG" />
+            </div>
+            <div class="variation-meta">
+              <h3>Compact lockup, small PNG</h3>
+              <p class="file">img/logo-default.png</p>
+              <p>Smaller PNG of the compact lockup. On Paper.</p>
+              <a class="btn btn-secondary dl-file" href="img/logo-default.png" download>Download PNG</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="color">
+    <div class="container">
+      <p class="section-label">Section 02</p>
+      <h2 class="section-title">Color Palette</h2>
+      <p class="lede">Six colors. No others. Oxide red carries the poster moments. Signal red is reserved for the one thing you want clicked or called.</p>
+
+      <div class="note">
+        <p><strong>Oxide and Signal.</strong> Oxide red is the field, the mark, and the poster moment. Signal red is actions only: CTAs, links, and phone numbers. Never use both reds on the same element. The 5% red in the ratio is Oxide. Signal is the single action inside that share, not a second field of red.</p>
+        <div class="ratio-bar" aria-hidden="true">
+          <div class="ratio-ink"></div>
+          <div class="ratio-grit"></div>
+          <div class="ratio-red"></div>
+        </div>
+        <div class="ratio-label">
+          <div class="ratio-item"><strong>70%</strong> Ink or Paper</div>
+          <div class="ratio-item"><strong>25%</strong> Grit</div>
+          <div class="ratio-item"><strong>5%</strong> Red</div>
+        </div>
+      </div>
+
+      <div class="color-grid">
+        <article class="swatch-card">
+          <div class="swatch-block" style="background:#201E1D;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Ink</p>
+            <p class="swatch-hex">#201E1D</p>
+            <p>Body text, ground, nav backgrounds.</p>
+          </div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-block" style="background:#AE1800;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Oxide Red</p>
+            <p class="swatch-hex">#AE1800</p>
+            <p>Fields, marks, poster moments.</p>
+          </div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-block" style="background:#EC3013;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Signal Red</p>
+            <p class="swatch-hex">#EC3013</p>
+            <p>Actions only — CTAs, links, phone numbers.</p>
+          </div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-block edge" style="background:#F3F2F2;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Paper</p>
+            <p class="swatch-hex">#F3F2F2</p>
+            <p>Page background.</p>
+          </div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-block" style="background:#D7D3D3;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Grit 300</p>
+            <p class="swatch-hex">#D7D3D3</p>
+            <p>Rules, dividers, light fills.</p>
+          </div>
+        </article>
+        <article class="swatch-card">
+          <div class="swatch-block" style="background:#605D5D;"></div>
+          <div class="swatch-info">
+            <p class="swatch-role">Grit 700</p>
+            <p class="swatch-hex">#605D5D</p>
+            <p>Secondary text, metadata.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="type">
+    <div class="container">
+      <p class="section-label">Section 03</p>
+      <h2 class="section-title">Typography</h2>
+      <p class="lede">Single typeface. Archivo only, weights 400, 800, and 900. Prototype body uses 1.25rem / 1.6. Paint restoration is primary. Interior is secondary. Paintless dent removal is supporting only.</p>
+
+      <div class="type-group">
+        <p class="type-group-label">Archivo</p>
+        <div class="type-row">
+          <div class="type-meta"><strong>Display</strong>800 — Hero headlines</div>
+          <p class="render-display">{{TAGLINE}}</p>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Heading</strong>800 — Section headings</div>
+          <p class="render-heading">Paint restoration &amp; repair.</p>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Label</strong>800 — Navigation, section markers</div>
+          <p class="render-label">Mobile service · DFW</p>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Text</strong>400 — Body copy, descriptions</div>
+          <p class="render-text">Color-matched paint restoration and interior reconditioning — on the lot, finished so the unit looks retail-ready, not repaired.</p>
+        </div>
+      </div>
+
+      <div class="type-note panel">
+        <h3>Import</h3>
+        <p>Google Fonts CDN: <code>Archivo:wght@400;800;900</code>. Do not add a second family. Weight 900 is available for the heaviest display moments. Body stays 400.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="buttons">
+    <div class="container">
+      <p class="section-label">Section 04</p>
+      <h2 class="section-title">Buttons</h2>
+      <p class="lede">Signal Red fill, white label, zero radius. One primary action per screen. The button is the only Signal Red on the page.</p>
+
+      <div class="btn-row">
+        <div class="btn-block panel">
+          <h3>Primary</h3>
+          <span class="btn btn-primary">Get a Quote</span>
+          <p>Signal Red fill. White 800 label. Zero radius. Reserved for the single action you want taken.</p>
+        </div>
+        <div class="btn-block panel">
+          <h3>Secondary</h3>
+          <span class="btn btn-secondary">How It Works</span>
+          <p>Ink border. Ink label. Transparent fill. Navigation that is not the primary conversion.</p>
+        </div>
+        <div class="btn-block panel">
+          <h3>Inline link</h3>
+          <span class="btn-inline">View Service Areas →</span>
+          <p>Signal Red. Underlined. 800 weight. Used inside body copy and navigation lists.</p>
+        </div>
+      </div>
+
+      <div class="btn-block panel">
+        <h3>Shared pattern — 0 radius, Archivo 800, uppercase</h3>
+        <div class="code">.btn-primary {
+  background: #EC3013;
+  color: #FFFFFF;
+  border: 2px solid #EC3013;
+  border-radius: 0;
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.btn-secondary {
+  background: transparent;
+  color: #201E1D;
+  border: 2px solid #201E1D;
+  border-radius: 0;
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.btn-inline {
+  color: #EC3013;
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="voice">
+    <div class="container">
+      <p class="section-label">Section 05</p>
+      <h2 class="section-title">Voice &amp; Tone</h2>
+      <p class="lede">Short declaratives. No exclamation marks. No “amazing”. No discount language. Price is stated plainly or not at all.</p>
+
+      <div class="voice-grid">
+        <div class="voice-card panel">
+          <h3>Personality</h3>
+          <div class="tag-list">
+            <span class="tag">Short</span>
+            <span class="tag">Declarative</span>
+            <span class="tag">Plain</span>
+          </div>
+        </div>
+        <div class="voice-card panel">
+          <h3>Words to use</h3>
+          <div class="tag-list">
+            <span class="tag">Flush</span>
+            <span class="tag">Lot-ready</span>
+            <span class="tag">Paint</span>
+            <span class="tag">Interior</span>
+            <span class="tag">On the lot</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">DFW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tagline-block">
+        <p>Paint first. Interior next. Lot-ready.</p>
+        <p>On your lot. On your timeline.</p>
+        <p>We come to the car.</p>
+        <span>Voice lines</span>
+      </div>
+
+      <div class="not-this">
+        <h3>Not this</h3>
+        <div class="counter-line">
+          <div class="x-mark"></div>
+          <p>“We provide comprehensive automotive reconditioning solutions for your dealership needs!”</p>
+        </div>
+        <div class="counter-line">
+          <div class="x-mark"></div>
+          <p>“Our amazing team utilizes industry-leading techniques to deliver unbeatable results.”</p>
+        </div>
+        <div class="counter-line">
+          <div class="x-mark"></div>
+          <p>“Save BIG on your paint repair today — limited time discount pricing available!”</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="usage">
+    <div class="container">
+      <p class="section-label">Section 06</p>
+      <h2 class="section-title">Usage Rules</h2>
+      <p class="lede">Apply these with the logo, color, and type rules above. When a layout and a logo file disagree, the file wins.</p>
+
+      <div class="rules-grid">
+        <div class="rule-card panel">
+          <h3>Logo</h3>
+          <ul class="rule-list">
+            <li>Primary lockup is <code>img/logo-site.svg</code>, on Ink. The site header uses this file.</li>
+            <li>Dark lockup is <code>img/logo-site-dark.svg</code>, on Paper.</li>
+            <li>Solid lockup is <code>img/logo-site-solid.svg</code>, on Oxide, and only when nothing else will hold.</li>
+            <li>Compact lockup is <code>img/logo.svg</code>, with <code>logo@2x.png</code> and <code>logo-default.png</code> as rasters. On Paper.</li>
+            <li>Clear space is 16px on all sides. Minimum display width is 80px.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Logo — do not</h3>
+          <ul class="rule-list dont">
+            <li>Do not stretch, rotate, recolor, or add effects.</li>
+            <li>Do not place the logo on photographic backgrounds or patterns.</li>
+            <li>Do not swap grounds. Light artwork on Ink. Dark artwork on Paper.</li>
+            <li>Do not invent a wordmark-only or extra stacked set. Use the files that exist.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Color and type</h3>
+          <ul class="rule-list">
+            <li>Ink #201E1D. Oxide #AE1800. Signal #EC3013. Paper #F3F2F2. Grit 300 #D7D3D3. Grit 700 #605D5D.</li>
+            <li>Ratio: 70% Ink or Paper, 25% Grit, 5% red.</li>
+            <li>Oxide carries poster moments. Signal is the one click or call. Never both reds on the same element.</li>
+            <li>Archivo only. Weights 400, 800, and 900. Headlines 800. Body 400.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Copy</h3>
+          <ul class="rule-list dont">
+            <li>Short declaratives. No exclamation marks. No “amazing”. No discount language.</li>
+            <li>Price is stated plainly or not at all.</li>
+            <li>Paint restoration is primary. Interior is secondary. Paintless dent removal is supporting only.</li>
+            <li>Do not use emojis in copy, UI, or print.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Layout</h3>
+          <ul class="rule-list">
+            <li>Everything flush left. No centered text. No centered headings.</li>
+            <li>Zero corner radius. Cards, buttons, inputs, and images stay square.</li>
+            <li>Section seams are 2px solid Grit 300. Never a 1px hairline.</li>
+            <li>A 10px Oxide square hangs beside numbered items in place of a numeral.</li>
+            <li>Photography is grayscale only, cropped tight to a panel or a detail. Never a whole glossy car on a white background.</li>
+          </ul>
+        </div>
+        <div class="rule-card panel">
+          <h3>Numbered item</h3>
+          <p>A 10px Oxide square replaces numerals in step lists, process flows, and ordered content.</p>
+          <div class="marker-list">
+            <div class="marker-item"><div class="n-sq"></div><p><strong>Book online.</strong> Schedule through the site or call 469.555.0132 directly.</p></div>
+            <div class="marker-item"><div class="n-sq"></div><p><strong>We come to the car.</strong> Mobile service across the DFW Metroplex — home, office, or lot.</p></div>
+            <div class="marker-item"><div class="n-sq"></div><p><strong>We restore the finish.</strong> Color-matched paint blend and clear-coat work so the repair disappears under showroom light.</p></div>
+            <div class="marker-item"><div class="n-sq"></div><p><strong>Customer-ready.</strong> Clean paint. Clean cabin. Ready for the front line.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="credit-line">Prepared by {{AGENCY_NAME}} · <a href="mailto:{{AGENCY_EMAIL}}">{{AGENCY_EMAIL}}</a></p>
+    </div>
+  </section>
+
+</body>
+</html>

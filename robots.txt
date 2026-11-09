@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /edit/
+Disallow: /fhbr-console/
+Disallow: /cdn-cgi/
+
+Sitemap: https://waterwayscruises.clientreview.co/sitemap.xml
