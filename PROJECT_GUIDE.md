@@ -42,6 +42,12 @@ Until those are answered, the figure is left off the page. The pages do not expl
 
 Internal economics, billing, and private ledgers. No message was sent to Don, Hilton, or anyone else. The production site was not changed.
 
+## Video backgrounds
+
+The official channel is Waterways Cruises and Events, https://www.youtube.com/@waterwayscruises (UC8-DkKioUXy-OPzKS6akl_A), found from the Sunday Supper video https://www.youtube.com/watch?v=-yd61oyrdCY. It has 13 videos. Titles and URLs are in `private/reference/video-sources.md`.
+
+yt-dlp could not download them from this environment. YouTube required a sign-in (“confirm you’re not a bot”) on the default client and on ios, mweb, android_vr, and web_safari. No silent loops were encoded. Heroes and bands still use the official photographs in `img/`.
+
 ## Files a reviewer touches
 
 - `index.html` and the path folders: the 91 pages

@@ -134,6 +134,90 @@
     show(0);
   });
 
+  var offer = document.getElementById("offer-pop");
+  if (offer) {
+    var offerDialog = offer.querySelector(".offer-dialog");
+    var offerForm = offer.querySelector("[data-offer]");
+    var offerThanks = offer.querySelector("[data-offer-thanks]");
+    var lastFocus = null;
+    var offerOpen = false;
+    function offerFocusable() {
+      return Array.prototype.slice.call(
+        offerDialog.querySelectorAll("button, a[href], input, select, textarea")
+      ).filter(function (el) {
+        return !el.disabled && el.offsetParent !== null;
+      });
+    }
+    function closeOffer() {
+      if (!offerOpen) return;
+      offerOpen = false;
+      offer.hidden = true;
+      document.body.classList.remove("offer-open");
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    function openOffer() {
+      if (offerOpen) return;
+      try {
+        if (sessionStorage.getItem("ww-offer-seen")) return;
+        sessionStorage.setItem("ww-offer-seen", "1");
+      } catch (err) {
+        return;
+      }
+      offerOpen = true;
+      window.clearTimeout(offerTimer);
+      window.removeEventListener("scroll", onOfferScroll);
+      lastFocus = document.activeElement;
+      offer.hidden = false;
+      document.body.classList.add("offer-open");
+      var closer = offer.querySelector(".offer-x");
+      if (closer) closer.focus();
+    }
+    var offerTimer = window.setTimeout(openOffer, 8000);
+    function onOfferScroll() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      if (max > 0 && window.scrollY / max >= 0.5) openOffer();
+    }
+    window.addEventListener("scroll", onOfferScroll, { passive: true });
+    offer.addEventListener("click", function (event) {
+      if (event.target.closest("[data-offer-close]")) closeOffer();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (!offerOpen) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeOffer();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      var items = offerFocusable();
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    if (offerForm) {
+      offerForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!offerForm.checkValidity()) {
+          offerForm.reportValidity();
+          return;
+        }
+        offerForm.hidden = true;
+        if (offerThanks) offerThanks.hidden = false;
+      });
+    }
+    window.addEventListener("pagehide", function () {
+      window.clearTimeout(offerTimer);
+    });
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")

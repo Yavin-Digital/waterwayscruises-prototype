@@ -492,9 +492,34 @@ def layout(path: str, title: str, description: str, body: str, extra_head: str =
 {body}
 {footer_html()}
 {phone_bar(path)}
+{"" if str(path).endswith("brand.html") else offer_popup()}
 <script src="/js/site.js"></script>
 </body>
 </html>
+"""
+
+
+def offer_popup() -> str:
+    return """
+<div class="offer-pop" id="offer-pop" hidden>
+  <div class="offer-backdrop" data-offer-close></div>
+  <div class="offer-dialog" role="dialog" aria-modal="true" aria-labelledby="offer-title">
+    <button class="offer-x" type="button" data-offer-close aria-label="Close"><span aria-hidden="true">×</span></button>
+    <div class="offer-photo" style="background-image:url('/img/emerald-sunset.jpg')" role="img" aria-label="Emerald Star on a Seattle lake at sunset"></div>
+    <div class="offer-copy">
+      <p class="eyebrow">From the lakes</p>
+      <p class="offer-title" id="offer-title">Seasonal cruises and presale news.</p>
+      <p>Leave an email if you want notes when seasonal cruises and presales are announced. This preview does not send the address.</p>
+      <form data-offer novalidate>
+        <label>Email
+          <input name="email" type="email" required autocomplete="email" placeholder="name@email.com">
+        </label>
+        <button class="btn" type="submit">Keep me posted</button>
+      </form>
+      <p class="offer-thanks" data-offer-thanks hidden>Preview only. Nothing was sent, and no request was received.</p>
+    </div>
+  </div>
+</div>
 """
 
 
