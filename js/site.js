@@ -8,17 +8,50 @@
   window.addEventListener("resize", syncBanner);
 
   var header = document.querySelector(".site-header");
-  var overlayHero = document.querySelector("main > .hero, main > .page-hero.with-photo");
-  function syncHeader() {
-    if (!header) return;
-    if (overlayHero) document.body.classList.add("has-overlay-header");
-    var solid = !overlayHero || window.scrollY > 12;
-    header.classList.toggle("is-solid", solid);
-    header.classList.toggle("is-over-hero", !solid);
+  if (header) {
+    header.classList.add("is-solid");
+    header.classList.remove("is-over-hero");
   }
-  syncHeader();
-  window.addEventListener("scroll", syncHeader, { passive: true });
-  window.addEventListener("resize", syncHeader);
+
+  var finder = document.querySelector("[data-find]");
+  if (finder) {
+    finder.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var data = new FormData(finder);
+      var cruise = data.get("cruise");
+      var routes = {
+        dinner: "/dining-cruises/dinner/",
+        brunch: "/dining-cruises/weekend-brunch-cruise/",
+        supper: "/dining-cruises/supper/",
+        seasonal: "/holiday-cruises/",
+        private: "/request-a-proposal/"
+      };
+      var params = new URLSearchParams();
+      if (data.get("date")) params.set("date", data.get("date"));
+      if (data.get("party")) params.set("party", data.get("party"));
+      var base = routes[cruise] || routes.dinner;
+      if (cruise === "private") {
+        window.location.href = base + (params.toString() ? "?" + params.toString() : "");
+        return;
+      }
+      window.location.href = base + "?" + params.toString() + "#book";
+    });
+  }
+
+  var query = new URLSearchParams(window.location.search);
+  document.querySelectorAll("[data-book]").forEach(function (widget) {
+    var date = widget.querySelector("[name='date']");
+    var party = widget.querySelector("[name='party']");
+    if (date && query.get("date")) date.value = query.get("date");
+    if (party && query.get("party")) party.value = query.get("party");
+  });
+  var proposal = document.querySelector("#proposal");
+  if (proposal && query.get("date")) {
+    var when = proposal.querySelector("[name='date']");
+    var guests = proposal.querySelector("[name='guests']");
+    if (when) when.value = query.get("date");
+    if (guests && query.get("party")) guests.value = query.get("party");
+  }
 
   var toggle = document.getElementById("nav-toggle");
   var sheet = document.getElementById("nav-sheet");

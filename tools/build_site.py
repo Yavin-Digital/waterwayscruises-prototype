@@ -480,7 +480,7 @@ def layout(path: str, title: str, description: str, body: str, extra_head: str =
 <link rel="icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&amp;family=Manrope:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/site.css">
 {extra_head}
 {org_schema()}
@@ -1029,47 +1029,80 @@ def home_body() -> str:
         for quote, name in TESTIMONIALS[:3]
     )
     return f"""
-<section class="band">
-  <div class="wrap center">
-    <p class="eyebrow">On the lakes since 1994</p>
-    <h2>Seattle, from the water.</h2>
-    <p class="measure">Public dining cruises and private yacht events on Lake Union and Lake Washington, departing Fishermen’s Terminal.</p>
-  </div>
+<section class="dest-row">
+  <a href="/dining-cruises/dinner/">
+    <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table">
+    <span class="shade"></span>
+    <span class="dest-copy">
+      <h2>Dinner</h2>
+      <p>2.5 hours · plated · ages 13+</p>
+      <span class="btn">View dinner</span>
+    </span>
+  </a>
+  <a href="/dining-cruises/weekend-brunch-cruise/">
+    <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table">
+    <span class="shade"></span>
+    <span class="dest-copy">
+      <h2>Brunch</h2>
+      <p>2 hours · buffet · all ages</p>
+      <span class="btn">View brunch</span>
+    </span>
+  </a>
+  <a href="/holiday-cruises/">
+    <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
+    <span class="shade"></span>
+    <span class="dest-copy">
+      <h2>Seasonal</h2>
+      <p>Parade of Lights, Thanksgiving, New Year’s Eve</p>
+      <span class="btn">View seasonal</span>
+    </span>
+  </a>
 </section>
-<section class="band band-tight">
+<section class="band sail-band">
   <div class="wrap">
-    <div class="editorial">
-      <a href="/dining-cruises/dinner/">
-        <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table">
-        <span class="shade"></span>
-        <span class="label"><span class="eyebrow">Dinner</span><h3>Premier Seattle Dinner Cruise</h3><p>2.5 hours · plated · ages 13+</p></span>
+    <h2 class="center">Cruises on the lakes</h2>
+    <div class="sail-grid">
+      <a class="sail-card" href="/dining-cruises/dinner/">
+        <img src="/img/dinner-spread.jpg" alt="Several dinner plates and wine glasses on a table">
+        <div>
+          <h3>Premier Seattle Dinner Cruise</h3>
+          <p>Wednesdays to Saturdays. Summer 7:00 to 9:30 pm. Winter 6:00 to 8:30 pm.</p>
+          <span>View cruise</span>
+        </div>
       </a>
-      <a href="/dining-cruises/weekend-brunch-cruise/">
-        <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table">
-        <span class="shade"></span>
-        <span class="label"><span class="eyebrow">Brunch</span><h3>Weekend Brunch</h3><p>2 hours · buffet · all ages</p></span>
+      <a class="sail-card" href="/dining-cruises/weekend-brunch-cruise/">
+        <img src="/img/brunch-table.jpg" alt="A brunch table set with food">
+        <div>
+          <h3>Weekend Brunch Cruise</h3>
+          <p>2 hours, brunch buffet, all ages.</p>
+          <span>View cruise</span>
+        </div>
       </a>
-      <a href="/holiday-cruises/">
+      <a class="sail-card" href="/dining-cruises/supper/">
+        <img src="/img/supper-table.jpg" alt="A supper table set aboard a Waterways yacht">
+        <div>
+          <h3>Sunday Supper Cruise</h3>
+          <p>2 hours, dinner buffet, all ages, select Sundays.</p>
+          <span>View cruise</span>
+        </div>
+      </a>
+      <a class="sail-card" href="/holiday-cruises/holiday-sights-cruise/">
         <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
-        <span class="shade"></span>
-        <span class="label"><span class="eyebrow">Seasonal</span><h3>Holiday cruises</h3><p>Parade of Lights, Thanksgiving, New Year’s Eve</p></span>
+        <div>
+          <h3>Holiday Sights Cruise</h3>
+          <p>Parade of Lights, from the water.</p>
+          <span>View cruise</span>
+        </div>
       </a>
     </div>
   </div>
 </section>
-<section class="bleed">
-  <div class="bleed-bg" style="background-image:url('/img/emerald-sunset.jpg')"></div>
+<section class="band band-navy fleet-band">
   <div class="wrap">
-    <div class="bleed-copy center">
-      <p class="eyebrow">Private events</p>
-      <h2>The yacht, for your guests alone.</h2>
-      <p class="measure">Weddings, corporate evenings, and celebrations aboard Emerald Star, Olympic Star, Destiny, and Sightseer.</p>
-      <p><a class="btn" href="/private-events/">Plan a Private Event</a></p>
-    </div>
-  </div>
-</section>
-<section class="band band-tight">
-  <div class="wrap">
+    <p class="eyebrow">Private events and charters</p>
+    <h2>The yacht, for your guests.</h2>
+    <p class="measure">Weddings, corporate evenings, and celebrations aboard Emerald Star, Olympic Star, Destiny, and Sightseer. Departing Fishermen’s Terminal.</p>
+    <p><a class="btn btn-light" href="/private-events/">Plan a private event</a></p>
     <div class="fleet-row">
       <a href="/fleet/theemeraldstar/"><img src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset"><h3>Emerald Star</h3><p>105 ft</p></a>
       <a href="/fleet/theolympicstar/"><img src="/img/olympic-skyline.jpg" alt="Olympic Star with the Seattle skyline"><h3>Olympic Star</h3><p>90 ft</p></a>
@@ -1079,20 +1112,44 @@ def home_body() -> str:
   </div>
 </section>
 <section class="band">
-  <div class="wrap proof">
-    <p class="eyebrow">From our guests</p>
-    {proof}
+  <div class="wrap">
+    <h2 class="center">From our guests</h2>
+    <div class="review-grid">{proof}</div>
   </div>
 </section>
-<section class="close-band" style="background-image:url('/img/hero-home.jpg')">
-  <div class="wrap center">
-    <h2>A table, or the whole yacht.</h2>
-    <p>Book a public cruise, or ask for a proposal for a private event.</p>
-    <div class="btn-row center">
-      <a class="btn btn-light" href="/dining-cruises/">Book a Cruise</a>
-      <a class="btn btn-line" href="/request-a-proposal/">Plan a Private Event</a>
-    </div>
+"""
+
+
+def home_finder() -> str:
+    party = "".join(f'<option value="{n}">{n}</option>' for n in range(2, 11))
+    return f"""
+<section class="hero finder-hero" style="background-image:url('/img/emerald-sunset.jpg')">
+  <div class="hero-inner center">
+    <p class="eyebrow">Lake Union · Lake Washington</p>
+    <h1>Cruises on Seattle’s lakes.</h1>
+    <p class="hero-sub">Dining cruises and private charters from Fishermen’s Terminal.</p>
   </div>
+  <form class="find-bar" data-find>
+    <label>Cruise
+      <select name="cruise" required>
+        <option value="dinner">Premier Dinner</option>
+        <option value="brunch">Weekend Brunch</option>
+        <option value="supper">Sunday Supper</option>
+        <option value="seasonal">Seasonal cruises</option>
+        <option value="private">Private charter</option>
+      </select>
+    </label>
+    <label>Date
+      <input name="date" type="date">
+    </label>
+    <label>Party
+      <select name="party">
+        <option value="">Guests</option>
+        {party}
+      </select>
+    </label>
+    <button class="btn" type="submit">Find a cruise</button>
+  </form>
 </section>
 """
 
@@ -1324,20 +1381,7 @@ def page_body(path: str, pages: dict) -> tuple[str, str]:
     h1 = h1_for(path, page)
     extra = ""
     if path == "/":
-        main = """
-<main id="main">
-<section class="hero" style="background-image:url('/img/emerald-sunset.jpg')">
-  <div class="hero-inner">
-    <p class="eyebrow">For an unforgettable experience</p>
-    <h1>Just add water.</h1>
-    <p class="hero-sub">Dining cruises and private events on Seattle’s lakes.</p>
-    <div class="btn-row hero-actions">
-      <a class="btn btn-light" href="/dining-cruises/">Book a Cruise</a>
-      <a class="btn btn-line" href="/private-events/">Plan a Private Event</a>
-    </div>
-  </div>
-</section>
-""" + home_body() + "\n</main>"
+        main = '<main id="main">' + home_finder() + home_body() + "\n</main>"
         return main, extra
     if path == "/faqs/":
         faq, schema, count = faq_html(pages)
@@ -1562,6 +1606,7 @@ def sitemap(paths: list[str]) -> None:
         "  - PROJECT_GUIDE.md\n"
         "  - README.md\n"
         "  - NOTES.md\n"
+        "  - private\n"
     )
 
 
@@ -1627,7 +1672,7 @@ def brand_page() -> None:
   <section class="band" id="type"><div class="wrap">
     <p class="section-label">Section 03</p>
     <h2>Typography</h2>
-    <p class="lede">Headlines are Cormorant Garamond. Body text is Manrope.</p>
+    <p class="lede">Headlines and text are Manrope. Headlines are bold. Text is regular.</p>
     <p class="display-sample">Dining cruises and private events on Seattle's lakes.</p>
     <p class="body-sample">Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
     <p>Body text is 18px on a phone and 20px on a wide screen. Buttons use Manrope.</p>
@@ -1666,11 +1711,11 @@ def brand_page() -> None:
 .cover{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;padding:32px 16px 48px}
 .cover-card{width:min(920px,100%);background:#08090e;color:#f5f7f9;padding:40px 32px}
 .cover-card img{width:min(440px,100%);height:auto;margin-bottom:24px}
-.cover-kicker{font-family:Montserrat,sans-serif;font-size:1.25rem;margin:8px 0}
+.cover-kicker{font-family:Manrope,sans-serif;font-size:1.25rem;margin:8px 0}
 .cover-tagline{color:#fff;font-size:1.15rem}
 .cover-credit{color:#c5ced6}
 .cover-credit a{color:#fff}
-.section-label{letter-spacing:.16em;text-transform:uppercase;color:#0e3060;font-family:Montserrat,sans-serif;font-size:14px}
+.section-label{letter-spacing:.16em;text-transform:uppercase;color:#0e3060;font-family:Manrope,sans-serif;font-size:14px}
 .download-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0}
 .logo-grid,.swatches{display:grid;grid-template-columns:1fr;gap:16px}
 .tile{padding:28px 20px;margin:0}
@@ -1682,7 +1727,7 @@ def brand_page() -> None:
 .tile figcaption{margin-top:12px;font-size:.95rem}
 .swatch{min-height:140px;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
 .swatch span{font-size:.9rem}
-.display-sample{font-family:Montserrat,sans-serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;letter-spacing:-.02em}
+.display-sample{font-family:Manrope,sans-serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);line-height:1.15;letter-spacing:-.02em}
 .body-sample{font-size:1.125rem;max-width:68ch}
 @media(min-width:640px){.logo-grid,.swatches{grid-template-columns:1fr 1fr}}
 @media(min-width:1024px){.swatches{grid-template-columns:1fr 1fr 1fr 1fr}}
