@@ -1691,8 +1691,9 @@ def brand_page() -> None:
       <div class="swatch" style="background:#ffffff;color:#000;border:1px solid #d7d3d3"><strong>White</strong><span>#ffffff</span></div>
       <div class="swatch" style="background:#000000;color:#fff"><strong>Black</strong><span>#000000</span></div>
       <div class="swatch" style="background:#c0995e;color:#08090e"><strong>Gold</strong><span>#c0995e</span></div>
+      <div class="swatch" style="background:#8d7045;color:#fff"><strong>Button gold</strong><span>#8d7045</span></div>
     </div>
-    <p>Gold is jewelry: a rule, a small label, the mark. It is not body text. Navy carries buttons and headings. Water and mist are grounds, not text on white.</p>
+    <p>The mark gold is #c0995e. White type on that gold is 2.64:1, short of WCAG AA, so buttons use #8d7045, the same hue darkened until white type reaches 4.63:1. Hover is #7c633d. Navy still carries headings. Water and mist are grounds, not text on white.</p>
   </div></section>
   <section class="band" id="type"><div class="wrap">
     <p class="section-label">Section 03</p>
@@ -1705,7 +1706,7 @@ def brand_page() -> None:
   <section class="band band-paper" id="buttons"><div class="wrap">
     <p class="section-label">Section 04</p>
     <h2>Buttons</h2>
-    <p class="lede">Navy fill with white type. The hover state inverts. Every target is at least 48 pixels tall. On a phone, a pair of actions stacks full width.</p>
+    <p class="lede">Gold fill, #8d7045, with white type. Hover darkens to #7c633d. Every target is at least 48 pixels tall. On a phone, a pair of actions stacks full width.</p>
     <p class="btn-row"><a class="btn" href="#buttons">Primary action</a><a class="btn btn-ghost" href="#buttons">Secondary action</a></p>
     <div class="tile tile-navy" style="padding:24px;margin-top:18px"><a class="btn btn-light" href="#buttons">On navy</a></div>
   </div></section>
