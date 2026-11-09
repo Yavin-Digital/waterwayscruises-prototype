@@ -228,6 +228,16 @@
       if (button) button.hidden = true;
       return;
     }
+    function arm() {
+      video.querySelectorAll("source[data-src]").forEach(function (source) {
+        if (!source.getAttribute("src")) source.setAttribute("src", source.getAttribute("data-src"));
+      });
+      if (video.getAttribute("data-lazy") !== null) video.load();
+    }
+    function playWhenReady() {
+      var pending = video.play();
+      if (pending && pending.catch) pending.catch(function () {});
+    }
     function sync() {
       if (!button) return;
       var paused = video.paused;
@@ -235,14 +245,36 @@
       button.setAttribute("aria-pressed", paused ? "true" : "false");
     }
     if (button) {
-      button.addEventListener("click", function () {
-        if (video.paused) video.play();
-        else video.pause();
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (video.paused) {
+          arm();
+          playWhenReady();
+        } else video.pause();
         sync();
       });
     }
     video.addEventListener("play", sync);
     video.addEventListener("pause", sync);
+    if (video.getAttribute("data-lazy") !== null) {
+      if (!("IntersectionObserver" in window)) {
+        arm();
+        playWhenReady();
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            video.pause();
+            return;
+          }
+          arm();
+          playWhenReady();
+        });
+      }, { rootMargin: "0px" });
+      observer.observe(video);
+    }
   });
 
   document.querySelectorAll("[data-season-filter]").forEach(function (button) {

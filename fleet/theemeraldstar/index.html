@@ -295,7 +295,13 @@
 </header>
 
 <main id="main">
-<section class="page-hero with-photo" style="background-image:url('/img/emerald-sunset.jpg')">
+<section class="page-hero with-photo video-hero" style="background-image:url('/assets/video/hero-ship-profile.jpg')">
+  <video class="bg-video" poster="/assets/video/hero-ship-profile.jpg" muted loop playsinline preload="metadata" autoplay aria-hidden="true">
+<source src="/assets/video/hero-ship-profile-mobile.mp4" type="video/mp4" media="(max-width: 639px)">
+<source src="/assets/video/hero-ship-profile.webm" type="video/webm">
+<source src="/assets/video/hero-ship-profile.mp4" type="video/mp4">
+</video>
+<button class="video-pause" type="button" aria-pressed="false">Pause</button>
   <div class="wrap">
     <p class="eyebrow">For An Unforgettable Experience, Just Add Water®</p>
     <h1>The Emerald Star</h1>

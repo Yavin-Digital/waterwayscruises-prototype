@@ -546,7 +546,48 @@ def offer_popup() -> str:
 """
 
 
+def video_tag(name: str, lazy: bool = True) -> str:
+    base = f"/assets/video/{name}"
+    attr = "data-src" if lazy else "src"
+    preload = "none" if lazy else "metadata"
+    autoplay = "" if lazy else " autoplay"
+    flag = " data-lazy" if lazy else ""
+    return f"""<video class="bg-video" poster="{base}.jpg" muted loop playsinline preload="{preload}"{autoplay}{flag} aria-hidden="true">
+<source {attr}="{base}-mobile.mp4" type="video/mp4" media="(max-width: 639px)">
+<source {attr}="{base}.webm" type="video/webm">
+<source {attr}="{base}.mp4" type="video/mp4">
+</video>
+<button class="video-pause" type="button" aria-pressed="false">Pause</button>"""
+
+
+PAGE_VIDEO = {
+    "/dining-cruises/dinner/": "dinner-cocktails",
+    "/dining-cruises/weekend-brunch-cruise/": "brunch-bacon-eggs",
+    "/dining-cruises/supper/": "sunday-open-water",
+    "/lunch-cruises/": "lunch-houseboats",
+    "/private-events/": "cocktail-pour-caipirinha",
+    "/fleet/": "cruising-drawbridge",
+    "/fleet/theemeraldstar/": "hero-ship-profile",
+    "/fleet/theolympicstar/": "cruising-aurora-bridge",
+    "/fleet/thedestiny/": "cruising-wake",
+    "/fleet/the-sightseer/": "sunday-open-water",
+}
+
+
 def hero_block(path: str, h1: str, lede: str, actions: str) -> str:
+    clip = PAGE_VIDEO.get(path)
+    if clip:
+        return f"""
+<section class="page-hero with-photo video-hero" style="background-image:url('/assets/video/{clip}.jpg')">
+  {video_tag(clip, lazy=False)}
+  <div class="wrap">
+    <p class="eyebrow">For An Unforgettable Experience, Just Add Water®</p>
+    <h1>{h1}</h1>
+    <p>{lede}</p>
+    <div class="btn-row hero-actions">{actions}</div>
+  </div>
+</section>
+"""
     img, alt = HERO.get(path, ("hero-home.jpg", "Waterways yacht on a Seattle lake"))
     klass = "hero" if path == "/" else "page-hero with-photo"
     return f"""
@@ -1078,40 +1119,46 @@ def home_body() -> str:
     )
     return f"""
 <section class="dest-row">
-  <a href="/dining-cruises/dinner/">
-    <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table">
-    <span class="shade"></span>
-    <span class="dest-copy">
-      <h2>Dinner</h2>
-      <p>2.5 hours · plated · ages 13+</p>
-      <span class="btn">View dinner</span>
-    </span>
-  </a>
-  <a href="/dining-cruises/weekend-brunch-cruise/">
-    <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table">
-    <span class="shade"></span>
-    <span class="dest-copy">
-      <h2>Brunch</h2>
-      <p>2 hours · buffet · all ages</p>
-      <span class="btn">View brunch</span>
-    </span>
-  </a>
-  <a href="/seasonal-cruises/">
-    <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
-    <span class="shade"></span>
-    <span class="dest-copy">
-      <h2>Seasonal</h2>
-      <p>Holiday, spring, summer, and fall sailings.</p>
-      <span class="btn">View seasonal</span>
-    </span>
-  </a>
+  <div class="dest-tile" style="background-image:url('/assets/video/dinner-sunset-wake.jpg')">
+    {video_tag("dinner-sunset-wake")}
+    <a href="/dining-cruises/dinner/">
+      <span class="shade"></span>
+      <span class="dest-copy">
+        <h2>Dinner</h2>
+        <p>2.5 hours · plated · ages 13+</p>
+        <span class="btn">View dinner</span>
+      </span>
+    </a>
+  </div>
+  <div class="dest-tile" style="background-image:url('/assets/video/brunch-bacon-eggs.jpg')">
+    {video_tag("brunch-bacon-eggs")}
+    <a href="/dining-cruises/weekend-brunch-cruise/">
+      <span class="shade"></span>
+      <span class="dest-copy">
+        <h2>Brunch</h2>
+        <p>2 hours · buffet · all ages</p>
+        <span class="btn">View brunch</span>
+      </span>
+    </a>
+  </div>
+  <div class="dest-tile">
+    <a href="/seasonal-cruises/">
+      <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
+      <span class="shade"></span>
+      <span class="dest-copy">
+        <h2>Seasonal</h2>
+        <p>Holiday, spring, summer, and fall sailings.</p>
+        <span class="btn">View seasonal</span>
+      </span>
+    </a>
+  </div>
 </section>
 <section class="band sail-band">
   <div class="wrap">
     <h2 class="center">Cruises on the lakes</h2>
     <div class="sail-grid">
       <a class="sail-card" href="/dining-cruises/dinner/">
-        <img src="/img/dinner-spread.jpg" alt="Several dinner plates and wine glasses on a table">
+        <span class="sail-media">{video_tag("dinner-charcuterie")}<img src="/assets/video/dinner-charcuterie.jpg" alt="A charcuterie board on a Waterways cruise"></span>
         <div>
           <h3>Premier Seattle Dinner Cruise</h3>
           <p>Wednesdays to Saturdays. Summer 7:00 to 9:30 pm. Winter 6:00 to 8:30 pm.</p>
@@ -1119,15 +1166,23 @@ def home_body() -> str:
         </div>
       </a>
       <a class="sail-card" href="/dining-cruises/weekend-brunch-cruise/">
-        <img src="/img/brunch-table.jpg" alt="A brunch table set with food">
+        <span class="sail-media">{video_tag("brunch-bacon-eggs")}<img src="/assets/video/brunch-bacon-eggs.jpg" alt="A brunch plate with bacon and eggs"></span>
         <div>
           <h3>Weekend Brunch Cruise</h3>
           <p>2 hours, brunch buffet, all ages.</p>
           <span>View cruise</span>
         </div>
       </a>
+      <a class="sail-card" href="/lunch-cruises/">
+        <span class="sail-media">{video_tag("lunch-salmon-plating")}<img src="/assets/video/lunch-salmon-plating.jpg" alt="A chef plating salmon on a Waterways cruise"></span>
+        <div>
+          <h3>Lunch cruises</h3>
+          <p>Lunch on Lake Union and Lake Washington.</p>
+          <span>View lunch</span>
+        </div>
+      </a>
       <a class="sail-card" href="/dining-cruises/supper/">
-        <img src="/img/supper-table.jpg" alt="A supper table set aboard a Waterways yacht">
+        <span class="sail-media">{video_tag("sunday-open-water")}<img src="/assets/video/sunday-open-water.jpg" alt="A Waterways yacht on open water"></span>
         <div>
           <h3>Sunday Supper Cruise</h3>
           <p>2 hours, dinner buffet, all ages, select Sundays.</p>
@@ -1145,12 +1200,19 @@ def home_body() -> str:
     </div>
   </div>
 </section>
-<section class="band band-navy fleet-band">
+<section class="band video-band fleet-band" style="background-image:url('/assets/video/cocktail-pour-coupe.jpg')">
+  {video_tag("cocktail-pour-coupe")}
   <div class="wrap">
     <p class="eyebrow">Private events and charters</p>
     <h2>The yacht, for your guests.</h2>
     <p class="measure">Weddings, corporate evenings, and celebrations aboard Emerald Star, Olympic Star, Destiny, and Sightseer. Departing Fishermen’s Terminal.</p>
     <p><a class="btn btn-light" href="/private-events/">Plan a private event</a></p>
+  </div>
+</section>
+<section class="band video-band fleet-band" style="background-image:url('/assets/video/hero-seattle-skyline.jpg')">
+  {video_tag("hero-seattle-skyline")}
+  <div class="wrap">
+    <h2>The fleet</h2>
     <div class="fleet-row">
       <a href="/fleet/theemeraldstar/"><img src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset"><h3>Emerald Star</h3><p>105 ft</p></a>
       <a href="/fleet/theolympicstar/"><img src="/img/olympic-skyline.jpg" alt="Olympic Star with the Seattle skyline"><h3>Olympic Star</h3><p>90 ft</p></a>
@@ -1171,7 +1233,8 @@ def home_body() -> str:
 def home_finder() -> str:
     party = "".join(f'<option value="{n}">{n}</option>' for n in range(2, 11))
     return f"""
-<section class="hero finder-hero" style="background-image:url('/img/emerald-sunset.jpg')">
+<section class="hero finder-hero video-hero" style="background-image:url('/assets/video/hero-ship-profile.jpg')">
+  {video_tag("hero-ship-profile", lazy=False)}
   <div class="hero-inner center">
     <p class="eyebrow">Lake Union · Lake Washington</p>
     <h1>Cruises on Seattle’s lakes.</h1>

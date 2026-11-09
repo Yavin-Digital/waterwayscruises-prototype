@@ -915,7 +915,7 @@ body.has-overlay-header .page-hero.with-photo {
   }
   .find-bar .btn { width: auto; min-width: 190px; }
   .dest-row { grid-template-columns: repeat(3, 1fr); padding: 64px 8px 8px; }
-  .dest-row a { min-height: 560px; }
+  .dest-row a, .dest-tile { min-height: 560px; }
   .sail-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
   .review-grid { grid-template-columns: 1fr 1fr 1fr; gap: 32px; align-items: start; }
   .desktop-links > a { font-size: 16px; font-weight: 600; letter-spacing: 0; }
@@ -948,6 +948,51 @@ body.has-overlay-header .page-hero.with-photo {
   cursor: pointer;
 }
 .video-pause:hover { background: var(--btn-gold-hover); color: #fff; }
+.finder-hero .video-pause {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  align-self: flex-end;
+  margin: 0 16px 8px 0;
+}
+.dest-tile {
+  position: relative;
+  min-height: 520px;
+  background: #0e3060 center/cover no-repeat;
+  overflow: hidden;
+}
+.dest-tile .bg-video,
+.video-band .bg-video,
+.sail-media .bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.dest-row .dest-tile > a { position: relative; z-index: 1; min-height: 520px; }
+.sail-card { position: relative; }
+.sail-media { position: relative; display: block; aspect-ratio: 16/10; overflow: hidden; background: #0e3060; }
+.sail-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sail-media .video-pause,
+.dest-tile .video-pause,
+.video-band .video-pause { z-index: 3; }
+.video-band {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: #0e3060 center/cover no-repeat;
+}
+.video-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 14, 0.62);
+  z-index: 1;
+}
+.video-band .wrap { position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
   .bg-video { display: none; }
 }
