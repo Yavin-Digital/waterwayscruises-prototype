@@ -220,6 +220,7 @@ NAV = [
         ("Gift Cards", "/gift-cards/"),
     ]),
     ("Seasonal Cruises", [
+        ("Seasonal cruises", "/seasonal-cruises/"),
         ("Holiday Cruises", "/holiday-cruises/"),
         ("Parade of Lights", "/parade-of-lights-cruises/"),
         ("Thanksgiving Day Cruise", "/thanksgiving-day-cruise/"),
@@ -384,6 +385,7 @@ def nav_html(path: str) -> str:
     <div class="header-actions">
       <nav class="desktop-links" aria-label="Primary">
         <a href="/dining-cruises/">Dining</a>
+        <a href="/seasonal-cruises/">Seasonal cruises</a>
         <a href="/private-events/">Private events</a>
         <a href="/fleet/">Fleet</a>
         <a href="/cruise-calendar/">Calendar</a>
@@ -445,6 +447,7 @@ def footer_html() -> str:
     <a class="footer-logo" href="/"><img src="/img/logo-lockup.png" width="168" height="107" alt="Waterways Cruises and Events"></a>
     <nav class="footer-links" aria-label="Footer">
       <a href="/dining-cruises/">Dining</a>
+      <a href="/seasonal-cruises/">Seasonal cruises</a>
       <a href="/private-events/">Private events</a>
       <a href="/fleet/">Fleet</a>
       <a href="/cruise-calendar/">Calendar</a>
@@ -1093,12 +1096,12 @@ def home_body() -> str:
       <span class="btn">View brunch</span>
     </span>
   </a>
-  <a href="/holiday-cruises/">
+  <a href="/seasonal-cruises/">
     <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
     <span class="shade"></span>
     <span class="dest-copy">
       <h2>Seasonal</h2>
-      <p>Parade of Lights, Thanksgiving, New Year’s Eve</p>
+      <p>Holiday, spring, summer, and fall sailings.</p>
       <span class="btn">View seasonal</span>
     </span>
   </a>
@@ -1131,12 +1134,12 @@ def home_body() -> str:
           <span>View cruise</span>
         </div>
       </a>
-      <a class="sail-card" href="/holiday-cruises/holiday-sights-cruise/">
+      <a class="sail-card" href="/seasonal-cruises/">
         <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
         <div>
-          <h3>Holiday Sights Cruise</h3>
-          <p>Parade of Lights, from the water.</p>
-          <span>View cruise</span>
+          <h3>Seasonal cruises</h3>
+          <p>The holiday, spring, summer, and fall sailings.</p>
+          <span>View the season</span>
         </div>
       </a>
     </div>
@@ -1794,6 +1797,122 @@ def brand_page() -> None:
     (ROOT / "brand.html").write_text(doc)
 
 
+def seasonal_card(season: str, href: str, image: str, alt: str, when: str, name: str, blurb: str, book: bool = True) -> str:
+    target = href + "#book" if book else href
+    return f"""
+<article class="season-card" data-season="{season}">
+  <img src="/img/{image}" alt="{esc(alt)}">
+  <div>
+    <p class="when">{esc(when)}</p>
+    <h3>{esc(name)}</h3>
+    <p>{esc(blurb)}</p>
+    <a class="btn" href="{target}">Book</a>
+  </div>
+</article>
+"""
+
+
+def seasonal_page() -> None:
+    groups = [
+        ("Winter", "winter", [
+            ("/all-cruises/valentines-day-lunch-cruise/", "valentines.jpg", "A Valentine table setting", "February 13 and 14", "Valentine’s Day Lunch Cruise", "February 13, 11:30 a.m. to 1:30 p.m. February 14, 11:00 a.m. to 1:00 p.m. All ages."),
+            ("/valentines-dinner-cruise/", "dinner-toast.jpg", "A guest holding a glass of wine at a set dining table", "February 13 and 14", "Valentine’s Dinner Cruise", "6:30 p.m. to 9:00 p.m. Ages 18+."),
+            ("/all-cruises/sip-sunset-valentines-wine-and-sights-cruise/", "wine.jpg", "Wine glasses on a cruise table", "February 14", "Sip & Sunset Valentine’s Wine and Sights", "5:00 to 6:30 p.m. A greet glass of red wine, charcuterie, and the sunset. Departs Lake Union Piers."),
+            ("/holiday-cruises/holiday-dinner-cruise/", "christmas-table.jpg", "A holiday table with roses and glassware", "Parade of Lights", "Holiday Dining Cruise", "Dine at your own table, raise a toast, and cruise through Seattle’s Holiday Parade of Lights. All ages."),
+            ("/holiday-cruises/holiday-sights-cruise/", "holiday-lights.jpg", "Boats with holiday lights on the water at night", "Parade of Lights", "Holiday Sights Cruise", "Appetizers, hot cocoa, and holiday lights on the lakes of Seattle. All ages."),
+            ("/holiday-cruises/christmas-eve-dinner-cruise/", "christmas-table.jpg", "A holiday table set for Christmas Eve", "December 24", "Christmas Eve Dinner Cruise", "6:00 to 8:30 p.m."),
+            ("/holiday-cruises/new-years-eve-dinner-cruise/", "skyline-night.jpg", "Seattle skyline at night on the water", "December 31", "New Year’s Eve Dinner Cruise", "9:30 p.m. to 12:30 a.m. Ages 16+."),
+            ("/new-years-eve-party-cruise/", "skyline-night.jpg", "The Seattle skyline after dark", "December 31", "New Year’s Eve Party Cruise", "10:00 p.m. to 12:30 a.m. Ages 21+."),
+        ]),
+        ("Spring", "spring", [
+            ("/willamette-valley-vineyards-wine-pairing-cruise/", "wine.jpg", "Wine poured for a pairing cruise", "March 4", "Wine Pairing Cruise with Willamette Valley Vineyards", "Boarding 5:30 p.m. Cruising 6:00 to 8:30 p.m. A four-course dinner and four wines."),
+            ("/easter-brunch/", "easter-yacht.jpg", "A Waterways yacht on the lake", "April 5", "Easter Brunch Cruise", "11:00 a.m. to 1:00 p.m. Departs Lake Union Piers, 901 Fairview Avenue North."),
+            ("/mothers-day-dinner-cruise/", "dinner-plate.jpg", "A plated dinner from a Waterways cruise", "May 9 and 10", "Mother’s Day Dinner Cruise", "Boarding 4:30 p.m. Cruising 5:00 to 7:30 p.m. All ages."),
+            ("/mothers-day-brunch-cruise/", "brunch-plate.jpg", "A brunch plate on a cruise table", "Mother’s Day", "Mother’s Day Brunch Cruise", "11:00 a.m. to 1:00 p.m. All ages. A brunch buffet on Lake Union and Lake Washington."),
+        ]),
+        ("Summer", "summer", [
+            ("/holiday-cruises/fathers-day-brunch-cruise/", "brunch-table.jpg", "A brunch table set with food", "June 21", "Father’s Day Brunch Cruise", "11:00 a.m. to 1:00 p.m. All ages."),
+            ("/fourth-of-july-fireworks-dinner-cruise/", "olympic-skyline.jpg", "A Waterways yacht with the Seattle skyline", "Fourth of July", "Fourth of July Fireworks Dinner Cruise", "Sailing 8:30 to 11:00 p.m. All ages. Departs Fishermen’s Terminal."),
+            ("/fourth-of-july-fireworks-party-cruise/", "skyline-night.jpg", "Seattle lights on the water at night", "Fourth of July", "Fourth of July Fireworks Party Cruise", "Sailing 8:45 to 11:15 p.m. Ages 21+. Departs MOHAI, slip 6."),
+            ("/seafair-blue-angels-bbq-lunch-cruise/", "blue-angels.jpg", "Blue Angels aircraft over the water", "August 1 and 2", "Seafair Blue Angels BBQ Lunch Cruise", "Boarding 1:15 p.m. Cruising 1:45 to 5:00 p.m. All ages."),
+            ("/seafair-party-blue-angels/", "blue-angels.jpg", "The Blue Angels in formation", "August 2", "Seafair Blue Angels Party Cruise", "Boarding 1:15 p.m. Cruising 1:45 to 5:00 p.m. Ages 21+."),
+        ]),
+        ("Fall", "fall", [
+            ("/all-cruises/fall-foliage-lunch-cruise/", "fall-foliage.jpg", "Fall color along the lake", "Select Tuesdays to Thursdays in October", "Fall Foliage Lunch Cruise", "11:30 a.m. to 1:30 p.m. Departs Lake Union Piers."),
+            ("/09-06-26-applecup-wsuvsuw-sailgating/", "sailgate-stadium.jpg", "A stadium seen from the water", "September 6, 2026", "Apple Cup Sailgating", "WSU at UW. Boarding 8:45 a.m. A full-vessel buyout. The game ticket is not included.", False),
+            ("/10-09-26-iowa-hawkeyes-uw-sailgating/", "sailgate-stadium.jpg", "Husky stadium from across the water", "October 9, 2026", "Iowa at UW Sailgating", "A full-vessel buyout for the Iowa at Washington game.", False),
+            ("/11-07-26-pennstate-uw-sailgating/", "sailgate-stadium.jpg", "The stadium lights beside the lake", "November 7, 2026", "Penn State at UW Sailgating", "A full-vessel buyout for the Penn State at Washington game.", False),
+            ("/thanksgiving-day-cruise/", "thanksgiving.jpg", "A Thanksgiving table on a Waterways cruise", "November 26", "Thanksgiving Day Cruise", "12:30 to 3:00 p.m. and 6:00 to 8:30 p.m. All ages."),
+            ("/11-21-26-indiana-uw-sailgating/", "sailgate-stadium.jpg", "A game day view from the lake", "November 21", "Indiana at UW Sailgating", "A 2.5 hour one-way cruise. Ages 13+. A full-vessel buyout. Game time is not set on the page.", False),
+        ]),
+    ]
+    blocks = []
+    for label, key, cards in groups:
+        items = "\n".join(seasonal_card(key, *card) if len(card) == 6 else seasonal_card(key, *card) for card in cards)
+        # seasonal_card signature includes book with default. Unpack properly.
+        rendered = []
+        for card in cards:
+            if len(card) == 7:
+                rendered.append(seasonal_card(key, *card[:6], book=card[6]))
+            else:
+                rendered.append(seasonal_card(key, *card))
+        blocks.append(
+            f'<section class="season-group" data-season="{key}"><div class="wrap">'
+            f'<h2>{label}</h2><div class="season-grid">{"".join(rendered)}</div></div></section>'
+        )
+    body = """
+<main id="main">
+<section class="hero video-hero" style="background-image:url('/assets/video/hero-seattle-dusk.jpg')">
+  <video class="bg-video" poster="/assets/video/hero-seattle-dusk.jpg" autoplay muted loop playsinline preload="metadata">
+    <source src="/assets/video/hero-seattle-dusk-mobile.mp4" type="video/mp4" media="(max-width: 639px)">
+    <source src="/assets/video/hero-seattle-dusk.webm" type="video/webm">
+    <source src="/assets/video/hero-seattle-dusk.mp4" type="video/mp4">
+  </video>
+  <button class="video-pause" type="button" aria-pressed="false">Pause</button>
+  <div class="hero-inner center">
+    <p class="eyebrow">On the lakes</p>
+    <h1>Seasonal cruises.</h1>
+    <p class="hero-sub">Holiday, spring, summer, and fall sailings from Seattle.</p>
+  </div>
+</section>
+<section class="band season-intro">
+  <div class="wrap center">
+    <p class="measure">Thanksgiving, the Parade of Lights, Christmas Eve, New Year’s Eve, and the dated spring, summer, and fall cruises. Each card uses the date and description published for that cruise.</p>
+    <div class="season-filters" role="group" aria-label="Season">
+      <button class="btn is-on" type="button" data-season-filter="all">All</button>
+      <button class="btn" type="button" data-season-filter="winter">Winter</button>
+      <button class="btn" type="button" data-season-filter="spring">Spring</button>
+      <button class="btn" type="button" data-season-filter="summer">Summer</button>
+      <button class="btn" type="button" data-season-filter="fall">Fall</button>
+    </div>
+  </div>
+</section>
+""" + "\n".join(blocks) + """
+<section class="band band-navy">
+  <div class="wrap center">
+    <h2>Notes on the next season</h2>
+    <p class="measure">Leave an email if you want notes when seasonal cruises are announced. This preview does not send the address.</p>
+    <form class="season-note" data-season-note novalidate>
+      <label>Email <input name="email" type="email" required autocomplete="email"></label>
+      <button class="btn" type="submit">Keep me posted</button>
+    </form>
+    <p class="offer-thanks" data-season-thanks hidden>Preview only. Nothing was sent, and no request was received.</p>
+  </div>
+</section>
+</main>
+"""
+    write_page(
+        "/seasonal-cruises/",
+        layout(
+            "/seasonal-cruises/",
+            "Seasonal cruises | Waterways Cruises & Events",
+            "Holiday, spring, summer, and fall cruises on Seattle’s lakes.",
+            body,
+            og="/assets/video/hero-seattle-dusk.jpg",
+        ),
+    )
+
+
 def main() -> None:
     pages = parse_source()
     missing = [p for p in KEEP if p not in pages]
@@ -1827,7 +1946,8 @@ def main() -> None:
     not_found()
     seo_pages()
     brand_page()
-    sitemap(built + ["/brand.html", "/Waterways-SEO-AEO-Compare.html", "/Waterways-SEO-Summary.html", "/Waterways-SEO-InDepth.html", "/Waterways-SEO-Gap-Report.html"])
+    seasonal_page()
+    sitemap(built + ["/seasonal-cruises/", "/brand.html", "/Waterways-SEO-AEO-Compare.html", "/Waterways-SEO-Summary.html", "/Waterways-SEO-InDepth.html", "/Waterways-SEO-Gap-Report.html"])
     print(f"KEEP pages: {len(built)}")
     print(f"redirects: {len(redirects)}")
 

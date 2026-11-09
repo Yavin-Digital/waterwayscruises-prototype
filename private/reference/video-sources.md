@@ -22,6 +22,10 @@ Found from https://www.youtube.com/watch?v=-yd61oyrdCY. The videos tab on that c
 | Olympic Star | https://www.youtube.com/watch?v=w09guE9seMk |
 | Emerald Star | https://www.youtube.com/watch?v=urK8qeXN4ho |
 
+## Loop used on Seasonal cruises
+
+`assets/video/hero-seattle-dusk` plays in the page hero. It is the official clip from [DINNER CRUISE | Waterways Cruises & Events](https://www.youtube.com/watch?v=EcmhyZfEh74), 150.0–158.0 seconds, silent. Desktop MP4, WebM, a 960-wide mobile MP4, and a poster JPG are in `assets/video/`. The phone hero uses the mobile file. `prefers-reduced-motion` shows the poster only.
+
 ## Download attempt
 
 yt-dlp (with Node as the JavaScript runtime, then again with the ios, mweb, android_vr, and web_safari player clients) could not download any file. YouTube answered: “Sign in to confirm you’re not a bot.” No cookies are available in this environment. No loops were cut, and `assets/video/` has no files. Backgrounds stay on the official photographs already in `img/`.

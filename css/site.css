@@ -922,6 +922,89 @@ body.has-overlay-header .page-hero.with-photo {
 }
 .brand-lockup img { height: 44px; }
 
+.video-hero { overflow: hidden; }
+.video-hero .bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.video-hero::after { z-index: 1; }
+.video-hero .hero-inner,
+.video-pause { z-index: 2; }
+.video-pause {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 16px;
+  background: var(--btn-gold);
+  color: #fff;
+  border: 1px solid var(--btn-gold);
+  font-weight: 700;
+  cursor: pointer;
+}
+.video-pause:hover { background: var(--btn-gold-hover); color: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  .bg-video { display: none; }
+}
+.season-intro { padding-bottom: 24px; }
+.season-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.season-filters .btn { min-width: 48px; }
+.season-filters .btn.is-on { background: var(--btn-gold-hover); border-color: var(--btn-gold-hover); }
+.season-group { padding: 24px 0 48px; }
+.season-group h2 { text-align: center; }
+.season-grid { display: grid; gap: 20px; }
+.season-card { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+.season-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+.season-card div { padding: 18px 18px 22px; }
+.season-card .when {
+  margin: 0 0 0.35rem;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--navy);
+}
+.season-card h3 { margin-bottom: 0.4rem; }
+.season-card p { margin: 0 0 1rem; }
+.season-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: end;
+  margin-top: 8px;
+}
+.season-note label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+}
+.season-note input { min-width: min(100%, 280px); }
+@media (min-width: 640px) {
+  .season-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .season-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .season-group { padding: 32px 0 72px; }
+}
+
 .offer-pop {
   position: fixed;
   inset: 0;

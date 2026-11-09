@@ -23,7 +23,7 @@
         dinner: "/dining-cruises/dinner/",
         brunch: "/dining-cruises/weekend-brunch-cruise/",
         supper: "/dining-cruises/supper/",
-        seasonal: "/holiday-cruises/",
+        seasonal: "/seasonal-cruises/",
         private: "/request-a-proposal/"
       };
       var params = new URLSearchParams();
@@ -217,6 +217,58 @@
       window.clearTimeout(offerTimer);
     });
   }
+
+  document.querySelectorAll(".bg-video").forEach(function (video) {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var button = video.parentElement.querySelector(".video-pause");
+    if (reduce) {
+      video.removeAttribute("autoplay");
+      video.pause();
+      video.hidden = true;
+      if (button) button.hidden = true;
+      return;
+    }
+    function sync() {
+      if (!button) return;
+      var paused = video.paused;
+      button.textContent = paused ? "Play" : "Pause";
+      button.setAttribute("aria-pressed", paused ? "true" : "false");
+    }
+    if (button) {
+      button.addEventListener("click", function () {
+        if (video.paused) video.play();
+        else video.pause();
+        sync();
+      });
+    }
+    video.addEventListener("play", sync);
+    video.addEventListener("pause", sync);
+  });
+
+  document.querySelectorAll("[data-season-filter]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var season = button.getAttribute("data-season-filter");
+      document.querySelectorAll("[data-season-filter]").forEach(function (other) {
+        other.classList.toggle("is-on", other === button);
+      });
+      document.querySelectorAll(".season-group").forEach(function (group) {
+        group.hidden = season !== "all" && group.getAttribute("data-season") !== season;
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-season-note]").forEach(function (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      form.hidden = true;
+      var thanks = form.parentElement.querySelector("[data-season-thanks]");
+      if (thanks) thanks.hidden = false;
+    });
+  });
 
   function escapeHtml(value) {
     return String(value)
