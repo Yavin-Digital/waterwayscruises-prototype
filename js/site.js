@@ -7,6 +7,19 @@
   syncBanner();
   window.addEventListener("resize", syncBanner);
 
+  var header = document.querySelector(".site-header");
+  var overlayHero = document.querySelector("main > .hero, main > .page-hero.with-photo");
+  function syncHeader() {
+    if (!header) return;
+    if (overlayHero) document.body.classList.add("has-overlay-header");
+    var solid = !overlayHero || window.scrollY > 12;
+    header.classList.toggle("is-solid", solid);
+    header.classList.toggle("is-over-hero", !solid);
+  }
+  syncHeader();
+  window.addEventListener("scroll", syncHeader, { passive: true });
+  window.addEventListener("resize", syncHeader);
+
   var toggle = document.getElementById("nav-toggle");
   var sheet = document.getElementById("nav-sheet");
   if (toggle && sheet) {

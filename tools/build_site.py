@@ -380,7 +380,7 @@ def nav_html(path: str) -> str:
     return f"""
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand-lockup" href="/"><img src="/img/logo-lockup.png" width="168" height="107" alt="Waterways Cruises and Events"></a>
+    <a class="brand-lockup" href="/"><img class="logo-full" src="/img/logo-lockup.png" width="168" height="107" alt="Waterways Cruises and Events"><img class="logo-mark" src="/img/logo-mark.png" alt=""></a>
     <div class="header-actions">
       <nav class="desktop-links" aria-label="Primary">
         <a href="/dining-cruises/">Dining</a>
@@ -480,7 +480,7 @@ def layout(path: str, title: str, description: str, body: str, extra_head: str =
 <link rel="icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=ABeeZee&amp;family=Montserrat:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&amp;family=Manrope:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/site.css">
 {extra_head}
 {org_schema()}
@@ -1024,86 +1024,79 @@ def json_str(value: str) -> str:
 
 
 def home_body() -> str:
-    teasers = """
+    proof = "\n".join(
+        f"<blockquote><p>{esc(quote)}</p><footer>{esc(name)}</footer></blockquote>"
+        for quote, name in TESTIMONIALS[:3]
+    )
+    return f"""
 <section class="band">
-  <div class="wrap">
-    <p class="hero-rest-mobile">Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
-    <h2 class="center">Popular dining cruises</h2>
-    <div class="cruise-grid">
-      <a class="cruise-card" href="/dining-cruises/dinner/">
-        <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table" width="1400" height="2103">
-        <div class="cruise-card-body">
-          <h3>Premier Seattle Dinner Cruise</h3>
-          <p class="meta">2.5 hours · Plated dinner · Ages 13+</p>
-          <p>An evening aboard a Waterways yacht, with a plated dinner, attentive service, and views of Seattle’s lakes and skyline.</p>
-        </div>
-      </a>
-      <a class="cruise-card" href="/dining-cruises/weekend-brunch-cruise/">
-        <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table" width="1400" height="933">
-        <div class="cruise-card-body">
-          <h3>Weekend Brunch Cruise</h3>
-          <p class="meta">2 hours · Brunch buffet · All ages</p>
-          <p>A weekend brunch buffet on Lake Union and Lake Washington, open to all ages.</p>
-        </div>
-      </a>
-      <a class="cruise-card" href="/dining-cruises/supper/">
-        <img src="/img/supper-table.jpg" alt="Guests seated for supper beside the windows" width="1400" height="933">
-        <div class="cruise-card-body">
-          <h3>Sunday Supper Cruise</h3>
-          <p class="meta">2 hours · Dinner buffet · All ages</p>
-          <p>An all-ages supper buffet on select Sundays.</p>
-        </div>
-      </a>
-    </div>
+  <div class="wrap center">
+    <p class="eyebrow">On the lakes since 1994</p>
+    <h2>Seattle, from the water.</h2>
+    <p class="measure">Public dining cruises and private yacht events on Lake Union and Lake Washington, departing Fishermen’s Terminal.</p>
   </div>
 </section>
-<section class="band season-band" style="background-image:url('/img/holiday-lights.jpg')">
+<section class="band band-tight">
   <div class="wrap">
-    <h2>Seasonal cruises</h2>
-    <div class="calendar-list">
-      <a href="/11-07-26-pennstate-uw-sailgating/"><strong>Penn State Nittany Lions at UW sailgating</strong><br>Full-vessel buyout. Request a proposal.</a>
-      <a href="/11-21-26-indiana-uw-sailgating/"><strong>Indiana at UW sailgating</strong><br>Sailgate buffet and full bar. Request a proposal.</a>
-      <a href="/thanksgiving-day-cruise/"><strong>Thanksgiving Day Cruise</strong><br>November 26 · 12:30 to 3:00 pm and 6:00 to 8:30 pm · All ages</a>
-      <a href="/holiday-cruises/holiday-dinner-cruise/"><strong>Holiday Dining Cruise, Parade of Lights</strong><br>Dine at your own table and cruise through Seattle’s Holiday Parade of Lights. All ages welcome.</a>
-      <a href="/holiday-cruises/holiday-sights-cruise/"><strong>Holiday Sights Cruise, Parade of Lights</strong><br>Appetizers, hot cocoa, and holiday lights. All ages welcome.</a>
-      <a href="/holiday-cruises/christmas-eve-dinner-cruise/"><strong>Christmas Eve Dinner Cruise</strong><br>December 24 · 6:00 to 8:30 pm</a>
-      <a href="/holiday-cruises/new-years-eve-dinner-cruise/"><strong>New Year’s Eve Dinner Cruise</strong><br>December 31 · 9:30 pm to 12:30 am · Ages 16+</a>
-      <a href="/new-years-eve-party-cruise/"><strong>New Year’s Eve Party Cruise</strong><br>December 31 · 10:00 pm to 12:30 am · Ages 21+</a>
-      <a href="/willamette-valley-vineyards-wine-pairing-cruise/"><strong>Wine Pairing Cruise with Willamette Valley Vineyards</strong><br>March 4 · Boarding 5:30 pm · Cruising 6:00 to 8:30 pm</a>
+    <div class="editorial">
+      <a href="/dining-cruises/dinner/">
+        <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table">
+        <span class="shade"></span>
+        <span class="label"><span class="eyebrow">Dinner</span><h3>Premier Seattle Dinner Cruise</h3><p>2.5 hours · plated · ages 13+</p></span>
+      </a>
+      <a href="/dining-cruises/weekend-brunch-cruise/">
+        <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table">
+        <span class="shade"></span>
+        <span class="label"><span class="eyebrow">Brunch</span><h3>Weekend Brunch</h3><p>2 hours · buffet · all ages</p></span>
+      </a>
+      <a href="/holiday-cruises/">
+        <img src="/img/holiday-lights.jpg" alt="Boats with holiday lights on the water at night">
+        <span class="shade"></span>
+        <span class="label"><span class="eyebrow">Seasonal</span><h3>Holiday cruises</h3><p>Parade of Lights, Thanksgiving, New Year’s Eve</p></span>
+      </a>
     </div>
   </div>
 </section>
 <section class="bleed">
   <div class="bleed-bg" style="background-image:url('/img/emerald-sunset.jpg')"></div>
-  <div class="wrap bleed-inner">
-    <img class="bleed-photo" src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset" width="1400" height="947">
-    <div class="bleed-copy">
-      <h2>Private events</h2>
-      <p>“For an Unforgettable event…just add water.”® That’s been Waterways Cruises and Events promise for nearly 30 years. Your private event aboard a Waterways yacht or charter boat is the ultimate Northwest experience. With elegant and spacious accommodations, in-house catering, and breathtaking views, our boats offer the ideal venue for corporate events, weddings, holidays, or any other special occasion. Our dedicated team provides professional, courteous service, and exceptional food and drink to leave a lasting impression on your guests.</p>
-      <p><a class="btn" href="/private-events/">Private charters</a></p>
+  <div class="wrap">
+    <div class="bleed-copy center">
+      <p class="eyebrow">Private events</p>
+      <h2>The yacht, for your guests alone.</h2>
+      <p class="measure">Weddings, corporate evenings, and celebrations aboard Emerald Star, Olympic Star, Destiny, and Sightseer.</p>
+      <p><a class="btn" href="/private-events/">Plan a Private Event</a></p>
+    </div>
+  </div>
+</section>
+<section class="band band-tight">
+  <div class="wrap">
+    <div class="fleet-row">
+      <a href="/fleet/theemeraldstar/"><img src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset"><h3>Emerald Star</h3><p>105 ft</p></a>
+      <a href="/fleet/theolympicstar/"><img src="/img/olympic-skyline.jpg" alt="Olympic Star with the Seattle skyline"><h3>Olympic Star</h3><p>90 ft</p></a>
+      <a href="/fleet/thedestiny/"><img src="/img/spring-docked.jpg" alt="A Waterways yacht docked beside the lake"><h3>Destiny</h3><p>64 ft</p></a>
+      <a href="/fleet/the-sightseer/"><img src="/img/sightseer.jpg" alt="Sightseer on the lake"><h3>Sightseer</h3><p>Historic</p></a>
+    </div>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap proof">
+    <p class="eyebrow">From our guests</p>
+    {proof}
+  </div>
+</section>
+<section class="close-band" style="background-image:url('/img/hero-home.jpg')">
+  <div class="wrap center">
+    <h2>A table, or the whole yacht.</h2>
+    <p>Book a public cruise, or ask for a proposal for a private event.</p>
+    <div class="btn-row center">
+      <a class="btn btn-light" href="/dining-cruises/">Book a Cruise</a>
+      <a class="btn btn-line" href="/request-a-proposal/">Plan a Private Event</a>
     </div>
   </div>
 </section>
 """
-    quotes = "\n".join(
-        f"<blockquote><p>{esc(quote)}</p><footer>{esc(name)}</footer></blockquote>" for quote, name in TESTIMONIALS
-    )
-    rest = f"""
-<section class="band band-paper">
-  <div class="wrap">
-    <h2 class="center">Guest notes</h2>
-    <div class="quotes">{quotes}</div>
-  </div>
-</section>
-<section class="band">
-  <div class="wrap center">
-    <h2>Instagram</h2>
-    <p class="measure">Follow @waterwayscruises.</p>
-    <p><a class="btn btn-ghost" href="https://www.instagram.com/waterwayscruises/">Open Instagram</a></p>
-  </div>
-</section>
-"""
-    return teasers + rest
+
+
 
 
 def form_shell(intro: str, fields: str, submit: str) -> str:
@@ -1331,10 +1324,20 @@ def page_body(path: str, pages: dict) -> tuple[str, str]:
     h1 = h1_for(path, page)
     extra = ""
     if path == "/":
-        lede = '<span class="hero-lead">Experience Seattle from a new perspective with Waterways Cruises &amp; Events.</span> <span class="hero-rest">Based in Fishermen\'s Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</span>'
-        actions = '<a class="btn btn-light" href="/dining-cruises/">Dining Cruises</a><a class="btn btn-line" href="/private-events/">Private Charters</a>'
-        top = hero_block(path, h1, lede, actions)
-        main = f'<main id="main">{top}{home_body()}{closing(path)}</main>'
+        main = """
+<main id="main">
+<section class="hero" style="background-image:url('/img/emerald-sunset.jpg')">
+  <div class="hero-inner">
+    <p class="eyebrow">For an unforgettable experience</p>
+    <h1>Just add water.</h1>
+    <p class="hero-sub">Dining cruises and private events on Seattle’s lakes.</p>
+    <div class="btn-row hero-actions">
+      <a class="btn btn-light" href="/dining-cruises/">Book a Cruise</a>
+      <a class="btn btn-line" href="/private-events/">Plan a Private Event</a>
+    </div>
+  </div>
+</section>
+""" + home_body() + "\n</main>"
         return main, extra
     if path == "/faqs/":
         faq, schema, count = faq_html(pages)
@@ -1624,10 +1627,10 @@ def brand_page() -> None:
   <section class="band" id="type"><div class="wrap">
     <p class="section-label">Section 03</p>
     <h2>Typography</h2>
-    <p class="lede">Headlines are Montserrat. Body text is ABeeZee. Both at regular weight.</p>
+    <p class="lede">Headlines are Cormorant Garamond. Body text is Manrope.</p>
     <p class="display-sample">Dining cruises and private events on Seattle's lakes.</p>
     <p class="body-sample">Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
-    <p>Body text is 18px on a phone and 20px on a wide screen. Buttons use Montserrat.</p>
+    <p>Body text is 18px on a phone and 20px on a wide screen. Buttons use Manrope.</p>
   </div></section>
   <section class="band band-paper" id="buttons"><div class="wrap">
     <p class="section-label">Section 04</p>
