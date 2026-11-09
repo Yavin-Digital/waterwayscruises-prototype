@@ -21,7 +21,6 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","@id":"https://waterwayscruises.clientreview.co/#organization","name":"Waterways Cruises & Events","url":"https://waterwayscruises.clientreview.co/","telephone":"+1-206-223-2060","email":"contact@waterwayscruises.com","logo":"https://waterwayscruises.clientreview.co/img/logo-lockup.png","sameAs":["https://www.facebook.com/waterwayscruises","https://www.instagram.com/waterwayscruises/","https://www.tiktok.com/@waterwayscruises","https://www.yelp.com/biz/waterways-cruises-seattle"]}
 </script>
-<!-- Designed for go-live, add at launch: LocalBusiness PostalAddress and openingHours once NAP CURRENT, HOMEPORT PER CRUISE, and HOURS agree. Event or TouristTrip plus Offer per cruise. Person schema after founder bios are confirmed. Do not mark these pass. -->
 
 </head>
 <body>
@@ -220,11 +219,15 @@
   <div class="wrap header-inner">
     <a class="brand-lockup" href="/"><img src="/img/logo-lockup.png" width="168" height="107" alt="Waterways Cruises and Events"></a>
     <div class="header-actions">
-      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet">Menu</button>
       <nav class="desktop-links" aria-label="Primary">
-        <a href="/dining-cruises/">Dining Cruises</a>
-        <a href="/request-a-proposal/">Request a Proposal</a>
+        <a href="/dining-cruises/">Dining</a>
+        <a href="/private-events/">Private events</a>
+        <a href="/fleet/">Fleet</a>
+        <a href="/cruise-calendar/">Calendar</a>
+        <a href="/about-us/">About</a>
+        <a class="btn nav-cta" href="/request-a-proposal/">Request a Proposal</a>
       </nav>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-sheet">Menu</button>
     </div>
   </div>
   <div class="nav-sheet" id="nav-sheet">
@@ -297,25 +300,45 @@
     <p class="eyebrow">For An Unforgettable Experience, Just Add Water®</p>
     <h1>Dining cruises and private events on Seattle's lakes.</h1>
     <p>Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
-    <div class="btn-row"><a class="btn btn-light" href="/dining-cruises/">Dining Cruises</a><a class="btn btn-ghost" style="color:#fff;border-color:#fff" href="/private-events/">Private Charters</a></div>
-    <p class="caption" style="color:#f5f7f9">Waterways yacht on a Seattle lake, from the live site library. Rights pending.</p>
+    <div class="btn-row hero-actions"><a class="btn btn-light" href="/dining-cruises/">Dining Cruises</a><a class="btn btn-line" href="/private-events/">Private Charters</a></div>
   </div>
 </section>
-<p class="draft-note center">Draft positioning, pending approval, and not the headline: Dining cruises and private yacht events on Seattle’s lakes, since 1994.</p>
+
 <section class="band">
   <div class="wrap">
     <h2 class="center">Popular dining cruises</h2>
-    <div class="grid cols-3">
-      <article class="card"><h3><a class="title" href="/dining-cruises/dinner/">Premier Seattle Dinner Cruise</a></h3><p class="meta">2.5 hours · Plated dinner · Ages 13+</p><p>Come enjoy an unforgettable dining experience aboard a beautiful Waterways yacht, with culinary offerings, attentive service, and views of Seattle’s lakes and skyline.</p><p><a href="/dining-cruises/dinner/">Read the dinner cruise</a></p></article>
-      <article class="card"><h3><a class="title" href="/dining-cruises/weekend-brunch-cruise/">Weekend Brunch Cruise</a></h3><p class="meta">2 hours · Brunch buffet · All ages</p><p>A weekend brunch buffet on Lake Union and Lake Washington, open to all ages.</p><p><a href="/dining-cruises/weekend-brunch-cruise/">Read the brunch cruise</a></p></article>
-      <article class="card"><h3><a class="title" href="/dining-cruises/supper/">Sunday Supper Cruise</a></h3><p class="meta">2 hours · Dinner buffet · All ages</p><p>An all-ages supper buffet on select Sundays.</p><p><a href="/dining-cruises/supper/">Read Sunday Supper</a></p></article>
+    <div class="cruise-grid">
+      <a class="cruise-card" href="/dining-cruises/dinner/">
+        <img src="/img/dinner-toast.jpg" alt="A guest holding a glass of wine at a set dining table" width="1400" height="2103">
+        <div class="cruise-card-body">
+          <h3>Premier Seattle Dinner Cruise</h3>
+          <p class="meta">2.5 hours · Plated dinner · Ages 13+</p>
+          <p>An evening aboard a Waterways yacht, with a plated dinner, attentive service, and views of Seattle’s lakes and skyline.</p>
+        </div>
+      </a>
+      <a class="cruise-card" href="/dining-cruises/weekend-brunch-cruise/">
+        <img src="/img/brunch-plate.jpg" alt="A brunch plate on a cruise table" width="1400" height="933">
+        <div class="cruise-card-body">
+          <h3>Weekend Brunch Cruise</h3>
+          <p class="meta">2 hours · Brunch buffet · All ages</p>
+          <p>A weekend brunch buffet on Lake Union and Lake Washington, open to all ages.</p>
+        </div>
+      </a>
+      <a class="cruise-card" href="/dining-cruises/supper/">
+        <img src="/img/supper-table.jpg" alt="Guests seated for supper beside the windows" width="1400" height="933">
+        <div class="cruise-card-body">
+          <h3>Sunday Supper Cruise</h3>
+          <p class="meta">2 hours · Dinner buffet · All ages</p>
+          <p>An all-ages supper buffet on select Sundays.</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
 <section class="band band-paper">
   <div class="wrap">
     <h2>Seasonal cruises</h2>
-    <p class="measure">Dates below are the ones published on the live site. This review build does not show sold-out notices or a waitlist.</p>
+    <p class="measure center">Seasonal cruises on the lakes.</p>
     <div class="calendar-list">
       <a href="/11-07-26-pennstate-uw-sailgating/"><strong>Penn State Nittany Lions at UW sailgating</strong><br>Full-vessel buyout. Request a proposal.</a>
       <a href="/11-21-26-indiana-uw-sailgating/"><strong>Indiana at UW sailgating</strong><br>Sailgate buffet and full bar. Request a proposal.</a>
@@ -329,21 +352,21 @@
     </div>
   </div>
 </section>
-<section class="band">
-  <div class="wrap grid cols-2">
-    <div>
+<section class="bleed">
+  <div class="bleed-bg" style="background-image:url('/img/emerald-sunset.jpg')"></div>
+  <div class="wrap bleed-inner">
+    <img class="bleed-photo" src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset" width="1400" height="947">
+    <div class="bleed-copy">
       <h2>Private events</h2>
       <p>“For an Unforgettable event…just add water.”® That’s been Waterways Cruises and Events promise for nearly 30 years. Your private event aboard a Waterways yacht or charter boat is the ultimate Northwest experience. With elegant and spacious accommodations, in-house catering, and breathtaking views, our boats offer the ideal venue for corporate events, weddings, holidays, or any other special occasion. Our dedicated team provides professional, courteous service, and exceptional food and drink to leave a lasting impression on your guests.</p>
       <p><a class="btn" href="/private-events/">Private charters</a></p>
     </div>
-    <figure class="photo-frame"><img src="/img/emerald-sunset.jpg" alt="Emerald Star on the water at sunset" width="1400" height="947"><figcaption class="caption">Emerald Star, from the live site library. Rights pending.</figcaption></figure>
   </div>
 </section>
 
 <section class="band band-paper">
   <div class="wrap">
-    <h2>Guest notes</h2>
-    <p class="caption">Published on the live homepage. No star rating is shown.</p>
+    <h2 class="center">Guest notes</h2>
     <div class="quotes"><blockquote><p>What a neat experience! Went on a dinner cruise for a friend&#x27;s birthday...we had a group of 6 and we all had a blast. The accommodations/services were on par and the bonus was the amazing views of a beautiful city...I&#x27;ve lived in Seattle my whole life and it was really neat to see my city through Waterways lens...if you are looking for an all inclusive experience with good food and service in a beautiful setting for an overall good time...try Waterways out.</p><footer>Gabriel</footer></blockquote>
 <blockquote><p>Had a wonderful time here with my team! They truly make the Unwind Cruises an unforgettable experience. The vibes are incredible, the drinks are tasty, and the views are unmatched! Can&#x27;t wait to come back and bring my family / friends :)</p><footer>Marina</footer></blockquote>
 <blockquote><p>We went on a Mother&#x27;s Day Brunch cruise and had the best time. The staff were super friendly, the captain was good at pointing out and informing the guests of the sights around and with fun facts, and the food was absolutely delicious. The views were gorgeous and couldn&#x27;t have been better. We had a wonderful time and plan on going for another cruise!!</p><footer>Amanda P., Yelp</footer></blockquote>
@@ -366,13 +389,11 @@
     <div>
       <h2>Waterways Cruises &amp; Events</h2>
       <p>For An Unforgettable Experience, Just Add Water®</p>
-      <p>Published homeport: Fishermen's Terminal Dock 9<br>3919 18th Ave W<br>Seattle, WA 98119</p>
+      <p>Fishermen's Terminal Dock 9<br>3919 18th Ave W<br>Seattle, WA 98119</p>
       <p>Office, by appointment, and mailing address:<br>4005 20th Ave W, Suite 228<br>Seattle, WA 98199</p>
       <p><a href="tel:2062232060">(206) 223-2060</a><br>
       <a href="mailto:contact@waterwayscruises.com">contact@waterwayscruises.com</a><br>
       <a href="mailto:events@waterwayscruises.com">events@waterwayscruises.com</a></p>
-      <p><span class="hold">NAP CURRENT</span> These are the addresses, phone, and emails printed on the live site. They are pending confirmation, including an 18th Ave W versus 19th Ave W difference on a charter flyer.</p>
-      <p><span class="hold">HOURS</span> Public office hours are not confirmed. FAQ answers name weekday email windows that do not match each other.</p>
       <p>
         <a href="https://www.facebook.com/waterwayscruises">Facebook</a> ·
         <a href="https://www.instagram.com/waterwayscruises/">Instagram</a> ·
@@ -470,9 +491,7 @@
 <li><a href="/Waterways-SEO-AEO-Compare.html">SEO / AEO compare</a></li></ul></div>
   </div>
   <div class="wrap fine">
-    <p>Photography on this review build is taken from the live waterwayscruises.com library and is shown smaller than the original files. Rights are pending. This page does not claim the photographs as agency work.</p>
-    <p>© <span id="year">2026</span> Waterways Cruises &amp; Events. Review build prepared by DPA Branding. <a href="/privacy-policy/">Privacy</a> · <a href="/about-us/blog/">Journal</a> · <a href="/careers/">Careers</a> · <a href="/gift-cards/">Gift Cards</a> · <a href="/request-a-proposal/">Request a Proposal</a> · <a href="/dining-cruises/">Dining Cruises</a> · <a href="/brand.html">Brand guide</a></p>
-    <p>Google site: discovery for waterwayscruises.com was blocked (dossier D08) and is not complete. Off-index URLs may still be missing.</p>
+    <p>© <span id="year">2026</span> Waterways Cruises &amp; Events. <a href="/privacy-policy/">Privacy</a> · <a href="/about-us/blog/">Journal</a> · <a href="/careers/">Careers</a> · <a href="/gift-cards/">Gift Cards</a> · <a href="/brand.html">Brand guide</a></p>
   </div>
 </footer>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>

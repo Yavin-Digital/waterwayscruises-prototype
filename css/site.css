@@ -171,7 +171,7 @@ p { margin: 0 0 1rem; }
 
 .hero {
   position: relative;
-  min-height: 78vh;
+  min-height: calc(100svh - var(--banner-h) - var(--header-h) - 76px);
   display: flex;
   align-items: flex-end;
   color: var(--white);
@@ -183,7 +183,28 @@ p { margin: 0 0 1rem; }
   inset: 0;
   background: linear-gradient(180deg, rgba(8, 9, 14, 0.15) 0%, rgba(8, 9, 14, 0.72) 100%);
 }
-.hero-inner { position: relative; z-index: 1; padding: 72px 0 56px; width: min(820px, calc(100% - 32px)); margin-inline: auto; }
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(var(--wrap), calc(100% - 40px));
+  margin-inline: auto;
+  padding: 0 0 72px;
+  text-align: left;
+}
+.hero-actions .btn-line,
+.page-hero .btn-line {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+.hero-actions .btn-light,
+.page-hero .btn-light {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+.hero-actions .btn,
+.page-hero .btn { min-width: 168px; letter-spacing: 0.06em; }
 .hero .eyebrow, .page-hero .eyebrow {
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -206,7 +227,12 @@ p { margin: 0 0 1rem; }
   background-size: cover;
   background-position: center;
   position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
 }
+.page-hero.with-photo .wrap { padding: 48px 0 64px; }
 .page-hero.with-photo::after {
   content: "";
   position: absolute;
@@ -216,7 +242,8 @@ p { margin: 0 0 1rem; }
 .page-hero .wrap { position: relative; z-index: 1; }
 .page-hero p { max-width: var(--measure); }
 
-.band { padding: 72px 0; }
+.band { padding: 80px 0; }
+.quiet { color: #3c4654; font-size: 1rem; }
 .band-paper { background: var(--paper); }
 .band-navy { background: var(--navy); color: var(--white); }
 .band-navy a { color: var(--white); }
@@ -447,8 +474,61 @@ body { padding-bottom: 72px; }
   .quotes { grid-template-columns: 1fr 1fr; }
 }
 
+.cruise-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+.cruise-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  background: var(--white);
+}
+.cruise-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+.cruise-card-body { padding: 22px 4px 8px; }
+.cruise-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin: 0 0 0.35rem;
+}
+.cruise-card .meta { color: #3c4654; margin: 0 0 0.6rem; }
+.bleed { position: relative; overflow: hidden; padding: 80px 0; }
+.bleed-bg {
+  position: absolute;
+  inset: -48px;
+  background-position: center;
+  background-size: cover;
+  filter: blur(28px);
+  transform: scale(1.12);
+}
+.bleed-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.bleed-photo {
+  width: min(100%, 640px);
+  margin-inline: auto;
+  box-shadow: 0 24px 60px rgba(8, 9, 14, 0.28);
+}
+.bleed-copy {
+  background: rgba(255, 255, 255, 0.94);
+  padding: 36px 32px;
+}
+.nav-cta { padding-inline: 18px; }
+
 @media (min-width: 1024px) {
-  .desktop-links { display: flex; gap: 18px; align-items: center; }
+  .nav-toggle { display: none; }
+  .hero { min-height: calc(100svh - var(--banner-h) - var(--header-h)); }
+  .desktop-links { display: flex; gap: 22px; align-items: center; }
+  .band { padding: 148px 0; }
+  .bleed { padding: 148px 0; }
+  .cruise-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .cruise-card img { aspect-ratio: 3/4; }
+  .bleed-inner { grid-template-columns: 1.15fr 0.85fr; gap: 48px; }
+  .bleed-photo { margin-inline: 0; }
   .desktop-links > a {
     color: var(--ink);
     text-decoration: none;
@@ -456,6 +536,16 @@ body { padding-bottom: 72px; }
     display: inline-flex;
     align-items: center;
     font-family: var(--font-display);
+  }
+  .desktop-links > a.nav-cta {
+    color: var(--white);
+    background: var(--navy);
+    border: 1px solid var(--navy);
+    padding: 0 18px;
+  }
+  .desktop-links > a.nav-cta:hover {
+    background: var(--white);
+    color: var(--navy);
   }
   .nav-sheet.is-open .mega {
     display: grid;

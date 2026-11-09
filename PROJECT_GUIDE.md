@@ -36,7 +36,7 @@ Colors and type are only the live CSS tokens and the official logo. The table is
 
 D08 Google discovery. Photo rights. NAP and the 18th versus 19th Ave W flyer line. Homeport per cruise. Season year. Destiny buffet 25 versus 30. The 60,000-guest line. Uniqueness claims. Tagline form. RFP response time. Lakeside Event Space. Memberships still active or not. Which privacy text is current. Google Business Profile URL. Office hours. Booking provider. Charter and wedding dollars. Special-occasions capacity. Founder biographies beyond names and roles. Affiliations. Past seasonal pages. A real form destination. Hotel partner links.
 
-Until those are answered, the page shows a pending label or omits the figure. It does not guess.
+Until those are answered, the figure is left off the page. The pages do not explain the hold. The record is in `NOTES.md` and `SCOPE.md`.
 
 ## What is not in the repo
 

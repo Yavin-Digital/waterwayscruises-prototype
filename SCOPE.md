@@ -6,6 +6,8 @@ Agency credit on the build: DPA Branding, mike@dpabranding.com.
 
 This file matches the files in the repository. It is not a production launch and it does not change waterwayscruises.com.
 
+On-page working notes (rights, drafts, confirm labels, and source commentary) are not on the public HTML. They live in `NOTES.md` and in this file. The prototype banner is the only disclaimer on the pages.
+
 ## Discovery gap (D08)
 
 Google `site:waterwayscruises.com` discovery is **not complete**. From the research environment, google.com/search returned a JavaScript shell and web search returned no results. There is no Waterways exception on the research record, and this build does not claim the index is finished. Off-index URLs may still be missing. If more public URLs appear later, each one needs a genuine alias (301 at launch) or a gone/404 decision. They must not be sent to Home by default.
