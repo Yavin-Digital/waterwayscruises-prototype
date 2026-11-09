@@ -65,7 +65,7 @@
         (date ? ", " + escapeHtml(date) : "") +
         (party ? ", party of " + escapeHtml(party) : "") +
         (checks.length ? ". Enhancements: " + escapeHtml(checks.join(", ")) + "." : ".") +
-        "</p><p>No ticket was issued and no payment was taken. This review build does not connect to a booking provider.</p>";
+        "</p><p>No ticket was issued and no payment was taken.</p>";
     }
     widget.querySelectorAll("[data-next]").forEach(function (btn) {
       btn.addEventListener("click", function () {

@@ -315,6 +315,7 @@ def dedupe_doubled(text: str) -> str:
 
 def clean_text(text: str) -> str:
     t = text.replace("\u00a0", " ")
+    t = re.sub(r"h\s+ousemade", "housemade", t, flags=re.I)
     t = re.sub(r"Chevron down\s*", "", t)
     t = re.sub(r"Posted in:\s*Tweet Email", "", t)
     t = re.sub(r"\bBEST SELLER\b", "", t)
@@ -375,7 +376,7 @@ def nav_html(path: str) -> str:
     groups = []
     for label, links in NAV:
         items = "\n".join(f'<a href="{href}">{esc(name)}</a>' for name, href in links)
-        groups.append(f'<div class="nav-group"><h2>{esc(label)}</h2>{items}</div>')
+        groups.append(f'<div class="nav-group"><p class="nav-label">{esc(label)}</p>{items}</div>')
     return f"""
 <header class="site-header">
   <div class="wrap header-inner">
@@ -408,11 +409,6 @@ def footer_html() -> str:
     ]
     extra_nav = NAV + [
         ("Journal posts", journal),
-        ("Also on this build", [
-            ("Nonprofit application", "/nonprofit-partner-program-application/"),
-            ("Brand guide", "/brand.html"),
-            ("SEO / AEO compare", "/Waterways-SEO-AEO-Compare.html"),
-        ]),
     ]
     for label, links in extra_nav:
         items = "\n".join(f'<li><a href="{href}">{esc(name)}</a></li>' for name, href in links)
@@ -489,7 +485,7 @@ def layout(path: str, title: str, description: str, body: str, extra_head: str =
 {extra_head}
 {org_schema()}
 </head>
-<body>
+<body class="{"is-brand" if str(path).endswith("brand.html") else ""}">
 <a class="skip" href="#main">Skip to content</a>
 {banner()}
 {nav_html(path)}
@@ -680,9 +676,220 @@ def meta_for(path: str, page: dict, h1: str) -> str:
     return meta[:300]
 
 
+ICON_RE = re.compile(
+    r"(Calendar Dates?|Clock Duration|Map Marker Departure Location|Map Marker Departure|Map Marker Location|Food Includes|Glass Includes|User Ages|Dress Code Attire|Info Attire)\s*:?",
+    re.I,
+)
+ICON_LABELS = {
+    "calendar dates": "Dates",
+    "calendar date": "Date",
+    "clock duration": "Duration",
+    "map marker departure location": "Departure",
+    "map marker departure": "Departure",
+    "map marker location": "Departure",
+    "food includes": "Includes",
+    "glass includes": "Toast",
+    "user ages": "Ages",
+    "dress code attire": "Attire",
+    "info attire": "Attire",
+}
+
+
+def soften_heading(heading: str) -> str:
+    letters = [c for c in heading if c.isalpha()]
+    if len(letters) > 8 and sum(c.isupper() for c in letters) / len(letters) > 0.7:
+        lower = heading.lower()
+        return lower[0].upper() + lower[1:]
+    return heading
+
+
+def parse_quick(text: str):
+    matches = list(ICON_RE.finditer(text))
+    if len(matches) < 1:
+        return None
+    facts = []
+    for i, match in enumerate(matches):
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        value = text[match.end():end].strip(" :|-")
+        key = re.sub(r"\s+", " ", match.group(1)).lower()
+        facts.append([ICON_LABELS.get(key, match.group(1).title()), value])
+    prose = ""
+    label, value = facts[-1]
+    if len(value) > 120:
+        cut = re.search(r"\.\s+[A-Z]", value[24:])
+        zip_cut = re.search(r"\b\d{5}\b", value)
+        if cut:
+            idx = 24 + cut.end() - 1
+            prose = value[idx:].strip()
+            facts[-1][1] = value[:idx].strip()
+        elif zip_cut and zip_cut.end() < 220:
+            facts[-1][1] = value[: zip_cut.end()].strip(" |-")
+            prose = value[zip_cut.end():].strip(" |-")
+        else:
+            short = re.match(r"(.{1,80}?)(\s+[A-Z][a-z].{30,})", value)
+            if short:
+                facts[-1][1] = short.group(1).strip()
+                prose = short.group(2).strip()
+    return facts, prose
+
+
+def facts_html(facts) -> str:
+    cells = "".join(f'<div class="fact"><span>{esc(label)}</span>{esc(value)}</div>' for label, value in facts)
+    return f'<div class="facts">{cells}</div>'
+
+
+def includes_html(text: str) -> str:
+    text = text.strip()
+    if text.startswith("Two-and-a-half-hour cruise"):
+        items = [
+            "Two-and-a-half-hour cruise on Lake Union and Lake Washington (cruising on Lake Washington is subject to boat traffic and weather).",
+            "Your own private table",
+            "Prosecco or sparkling cider toast upon boarding",
+            "Delicious plated dinner*",
+            "Captain’s light narration of sights",
+            "Ages 13+",
+            "Breathtaking views of Seattle’s most iconic sights, including: the Space Needle, charming floating homes, historic bridges, the stunning city skyline, waterfront landmarks, seaplanes",
+        ]
+        notes = [
+            "Book for a group of 10 or more to save 10% off your tickets.",
+            "Full-service bar available for the purchase of specialty cocktails, wine, beer, and non-alcoholic beverages.",
+            "Entree selections for our dinner cruises are final. Please contact our office at least 2 business days prior to your cruise if you need to update your selection.",
+        ]
+        lis = "".join(f"<li>{esc(item)}</li>" for item in items)
+        paras = "".join(f"<p>{esc(note)}</p>" for note in notes)
+        return f'<ul class="includes">{lis}</ul>{paras}'
+    parts = [part.strip() for part in re.split(r"(?<=\.)\s+(?=[A-Z])", text) if part.strip()]
+    if len(parts) < 2:
+        return f"<p>{esc(text)}</p>"
+    return "<ul class=\"includes\">" + "".join(f"<li>{esc(item)}</li>" for item in parts) + "</ul>"
+
+
+def menu_fingerprint(text: str) -> str:
+    folded = re.sub(r"\s+", " ", text.lower())
+    found = re.search(r"first course\s+(.{30})", folded)
+    return found.group(1) if found else folded[:80]
+
+
+def split_seasons(text: str):
+    parts = re.split(r"(?=(?:Fall/Winter|Spring/Summer)\s+Dinner Menu)", text)
+    seasons = [part.strip() for part in parts if "first course" in part.lower()]
+    return seasons or ([text.strip()] if "first course" in text.lower() else [])
+
+
+def render_menu_season(text: str) -> str:
+    title = ""
+    match = re.match(r"((?:Fall/Winter|Spring/Summer)\s+Dinner Menu(?:\s*\([^)]+\))?)", text)
+    body = text
+    if match:
+        title = match.group(1).strip()
+        body = text[match.end():].strip()
+    body = re.sub(r"\*+\s*menu is subject to change\s*\*+", "", body, flags=re.I)
+    key = ""
+    key_match = re.search(r"\((?:v|veg|gf|df)\)\s*=.*$", body, flags=re.I)
+    if key_match:
+        key = key_match.group(0).strip()
+        body = body[: key_match.start()].strip()
+    chunks = re.split(r"\s*(First Course|Second Course|Third Course)\s*", body)
+    html_out = ""
+    if title:
+        html_out += f"<h2>{esc(title)}</h2>"
+    if chunks[0].strip():
+        html_out += f'<p class="menu-lead">{esc(chunks[0].strip())}</p>'
+    names = chunks[1::2]
+    contents = chunks[2::2]
+    for name, content in zip(names, contents):
+        label = name[:1].upper() + name[1:].lower()
+        html_out += f"<h3>{esc(label)}</h3>"
+        content = re.sub(r"^Your choice of entrée:\s*", "", content.strip())
+        if name.lower().startswith("second"):
+            dishes = re.split(r"\s+-or-\s+", content)
+            if len(dishes) == 1:
+                dishes = re.split(
+                    r"\s+(?=(?:Chicken Marsala|Vegetable Lasagna|Pan Roasted|Sunburst Squash|Steak & Lobster))",
+                    content,
+                )
+            html_out += "".join(f'<p class="dish">{esc(dish.strip())}</p>' for dish in dishes if dish.strip())
+        else:
+            html_out += f'<p class="dish">{esc(content.strip())}</p>'
+    if key:
+        html_out += f'<p class="menu-key">{esc(key)}</p>'
+    html_out += '<p class="menu-note">Menu is subject to change.</p>'
+    return f'<div class="menu">{html_out}</div>'
+
+
+def private_events_html(pages: dict) -> str:
+    page = pages["/private-events/"]
+    sections = {heading: clean_text(body) for heading, body in page["sections"]}
+    opening = sections.get("Unique, Fun, and Memorable Events", "")
+    occasion = []
+    photos = {
+        "Corporate Events": "/img/corporate-table.jpg",
+        "Weddings": "/img/wedding-ceremony.jpg",
+        "Celebrations": "/img/gallery-04.jpg",
+    }
+    alts = {
+        "Corporate Events": "Colleagues seated at a table during a private event",
+        "Weddings": "A ceremony on the deck",
+        "Celebrations": "Guests gathered aboard a yacht",
+    }
+    for name in ("Corporate Events", "Weddings", "Celebrations"):
+        text = sections.get(name, "")
+        if text:
+            occasion.append(
+                f'<article class="room"><img src="{photos[name]}" alt="{esc(alts[name])}"><h3>{esc(name)}</h3><p>{esc(text)}</p></article>'
+            )
+    fleet_photos = {
+        "The Emerald Star": ("/img/emerald-sunset.jpg", "Emerald Star on the water at sunset", "/fleet/theemeraldstar/"),
+        "The Olympic Star": ("/img/olympic-skyline.jpg", "Olympic Star with the Seattle skyline", "/fleet/theolympicstar/"),
+        "The Destiny": ("/img/spring-docked.jpg", "A Waterways yacht docked beside the lake", "/fleet/thedestiny/"),
+        "The Sightseer": ("/img/sightseer.jpg", "Sightseer on the lake", "/fleet/the-sightseer/"),
+    }
+    rooms = []
+    for heading, body in pages.get("/fleet/", {}).get("sections", []):
+        text = clean_text(body)
+        if heading in fleet_photos and text:
+            src, alt, href = fleet_photos[heading]
+            rooms.append(
+                f'<article class="room"><a href="{href}"><img src="{src}" alt="{esc(alt)}"><h3>{esc(heading)}</h3></a><p>{esc(text)}</p></article>'
+            )
+    quotes_raw = ""
+    for heading, body in page["sections"]:
+        text = clean_text(body)
+        if text.startswith("Everyone was so kind"):
+            quotes_raw = text
+    quote_bits = [bit.strip() for bit in re.split(r"(?=Incredible Cruise Event Experience!|We took Waterways)", quotes_raw) if bit.strip()]
+    quotes = "".join(f"<blockquote><p>{esc(bit)}</p></blockquote>" for bit in quote_bits)
+    corporate = ['<h2 id="corporate">Corporate events</h2>']
+    first = True
+    for heading, body in pages.get("/corporate/", {}).get("sections", []):
+        text = clean_text(body)
+        if not text:
+            continue
+        if heading == "Events with Waterways":
+            corporate.append(f"<h3>{esc(heading)}</h3><p>{esc(text)}</p>")
+        elif first:
+            corporate.append(f"<p>{esc(text)}</p>")
+            first = False
+        else:
+            corporate.append(f"<h3>{esc(soften_heading(heading))}</h3><p>{esc(text)}</p>")
+    corporate.append('<p><a href="/files/2026-Private-Catering-Menus.pdf">2026 Private Catering Menus (PDF)</a><br><a href="/files/2026-Wedding-Packages-Flyer.pdf">2026 Wedding Packages Flyer (PDF)</a><br><a href="/files/2027-Private-Charter-Flyer.pdf">2027 Private Charter Flyer (PDF)</a></p>')
+    return f"""
+<p>{esc(opening)}</p>
+<div class="room-grid">{''.join(occasion)}</div>
+<h2>The fleet</h2>
+<div class="room-grid">{''.join(rooms)}</div>
+<h2>Guest notes</h2>
+<div class="quotes">{quotes}</div>
+{''.join(corporate)}
+"""
+
+
 def section_html(path: str, page: dict, pages: dict) -> str:
+    if path == "/private-events/":
+        return private_events_html(pages)
     blocks = []
     seen = set()
+    seen_menus = set()
     for heading, raw in page["sections"]:
         text = clean_text(raw)
         key = (heading, text[:180])
@@ -707,14 +914,31 @@ def section_html(path: str, page: dict, pages: dict) -> str:
             continue
         if not text:
             continue
-        blocks.append(render_prose(heading, text))
-    if path == "/private-events/" and "/corporate/" in pages:
-        blocks.append('<h2 id="corporate">Corporate events</h2>')
-        for heading, raw in pages["/corporate/"]["sections"]:
-            text = clean_text(raw)
-            if text:
-                blocks.append(render_prose(heading, text))
-        blocks.append('<p><a href="/files/2026-Private-Catering-Menus.pdf">2026 Private Catering Menus (PDF)</a><br><a href="/files/2026-Wedding-Packages-Flyer.pdf">2026 Wedding Packages Flyer (PDF)</a><br><a href="/files/2027-Private-Charter-Flyer.pdf">2027 Private Charter Flyer (PDF)</a></p>')
+        if heading == "Quick Details" or len(ICON_RE.findall(text)) >= 2:
+            parsed = parse_quick(text)
+            if parsed:
+                facts, prose = parsed
+                blocks.append("<h2>Quick details</h2>")
+                blocks.append(facts_html(facts))
+                if prose:
+                    blocks.append(f"<p>{esc(prose)}</p>")
+                continue
+        if heading == "Cruise Includes":
+            blocks.append("<h2>Cruise includes</h2>")
+            blocks.append(includes_html(text))
+            continue
+        if "first course" in text.lower():
+            fresh = []
+            for season in split_seasons(text):
+                mark = menu_fingerprint(season)
+                if mark in seen_menus:
+                    continue
+                seen_menus.add(mark)
+                fresh.append(season)
+            if fresh:
+                blocks.append("".join(render_menu_season(season) for season in fresh))
+            continue
+        blocks.append(render_prose(soften_heading(heading), text))
     if path == "/dining-cruises/dinner/" and "/food-and-bar/dessert/" in pages:
         blocks.append('<h2 id="dessert-2020">Desserts</h2>')
         for heading, raw in pages["/food-and-bar/dessert/"]["sections"]:
@@ -803,6 +1027,7 @@ def home_body() -> str:
     teasers = """
 <section class="band">
   <div class="wrap">
+    <p class="hero-rest-mobile">Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
     <h2 class="center">Popular dining cruises</h2>
     <div class="cruise-grid">
       <a class="cruise-card" href="/dining-cruises/dinner/">
@@ -832,10 +1057,9 @@ def home_body() -> str:
     </div>
   </div>
 </section>
-<section class="band band-paper">
+<section class="band season-band" style="background-image:url('/img/holiday-lights.jpg')">
   <div class="wrap">
     <h2>Seasonal cruises</h2>
-    <p class="measure center">Seasonal cruises on the lakes.</p>
     <div class="calendar-list">
       <a href="/11-07-26-pennstate-uw-sailgating/"><strong>Penn State Nittany Lions at UW sailgating</strong><br>Full-vessel buyout. Request a proposal.</a>
       <a href="/11-21-26-indiana-uw-sailgating/"><strong>Indiana at UW sailgating</strong><br>Sailgate buffet and full bar. Request a proposal.</a>
@@ -874,7 +1098,7 @@ def home_body() -> str:
 <section class="band">
   <div class="wrap center">
     <h2>Instagram</h2>
-    <p class="measure">The official account is @waterwayscruises. Follower counts are not shown.</p>
+    <p class="measure">Follow @waterwayscruises.</p>
     <p><a class="btn btn-ghost" href="https://www.instagram.com/waterwayscruises/">Open Instagram</a></p>
   </div>
 </section>
@@ -887,7 +1111,7 @@ def form_shell(intro: str, fields: str, submit: str) -> str:
 <div class="form-card">
   <p class="form-note">Preview only. This form is not connected to Waterways, to an email service, or to a booking system.</p>
   {intro}
-  <form data-preview novalidate>
+  <form data-preview id="proposal" novalidate>
     {fields}
     <button class="btn" type="submit">{submit}</button>
     <p class="form-note" data-form-note hidden></p>
@@ -945,7 +1169,7 @@ def rfp_body() -> str:
 <li><a href="/files/2027-Private-Charter-Flyer.pdf">2027 Private Charter Flyer</a></li>
 </ul>
 """
-    return form_shell("<p>Tell us about the event. A custom proposal is what the live page describes. This preview does not send it.</p>", fields, "Review proposal") + downloads
+    return form_shell("<p>Tell us about the event. This preview does not send it.</p>", fields, "Review proposal") + downloads
 
 
 def contact_body(page: dict) -> str:
@@ -975,7 +1199,7 @@ def careers_form() -> str:
 <label>Note <textarea name="note"></textarea></label>
 """
     return "<h2>Employment application</h2>" + form_shell(
-        "<p>The live page also lists apply-to addresses on each job. Those addresses stay as published. This preview does not email them.</p>",
+        "<p>Send a resume to the address on the job. This preview does not email it.</p>",
         fields,
         "Review application",
     )
@@ -1107,7 +1331,7 @@ def page_body(path: str, pages: dict) -> tuple[str, str]:
     h1 = h1_for(path, page)
     extra = ""
     if path == "/":
-        lede = "Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events."
+        lede = '<span class="hero-lead">Experience Seattle from a new perspective with Waterways Cruises &amp; Events.</span> <span class="hero-rest">Based in Fishermen\'s Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</span>'
         actions = '<a class="btn btn-light" href="/dining-cruises/">Dining Cruises</a><a class="btn btn-line" href="/private-events/">Private Charters</a>'
         top = hero_block(path, h1, lede, actions)
         main = f'<main id="main">{top}{home_body()}{closing(path)}</main>'
@@ -1341,7 +1565,6 @@ def sitemap(paths: list[str]) -> None:
 def brand_page() -> None:
     body = r"""
 <main id="main">
-  <p class="wrap" style="padding-top:18px"><a href="/">Prototype home</a></p>
   <header class="cover"><div class="cover-card">
     <img src="/img/logo-lockup.png" alt="Waterways Cruises and Events">
     <p class="eyebrow">Visual identity standards</p>
@@ -1404,12 +1627,12 @@ def brand_page() -> None:
     <p class="lede">Headlines are Montserrat. Body text is ABeeZee. Both at regular weight.</p>
     <p class="display-sample">Dining cruises and private events on Seattle's lakes.</p>
     <p class="body-sample">Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
-    <p>Body text is 18px. Buttons use Montserrat.</p>
+    <p>Body text is 18px on a phone and 20px on a wide screen. Buttons use Montserrat.</p>
   </div></section>
   <section class="band band-paper" id="buttons"><div class="wrap">
     <p class="section-label">Section 04</p>
     <h2>Buttons</h2>
-    <p class="lede">Navy fill with white type. The hover state inverts. Every target is at least 44 pixels tall. On a phone, a pair of actions stacks full width.</p>
+    <p class="lede">Navy fill with white type. The hover state inverts. Every target is at least 48 pixels tall. On a phone, a pair of actions stacks full width.</p>
     <p class="btn-row"><a class="btn" href="#buttons">Primary action</a><a class="btn btn-ghost" href="#buttons">Secondary action</a></p>
     <div class="tile tile-navy" style="padding:24px;margin-top:18px"><a class="btn btn-light" href="#buttons">On navy</a></div>
   </div></section>
@@ -1444,7 +1667,7 @@ def brand_page() -> None:
 .cover-tagline{color:#fff;font-size:1.15rem}
 .cover-credit{color:#c5ced6}
 .cover-credit a{color:#fff}
-.section-label{letter-spacing:.18em;text-transform:uppercase;color:#0e3060;font-family:Montserrat,sans-serif;font-size:.75rem}
+.section-label{letter-spacing:.16em;text-transform:uppercase;color:#0e3060;font-family:Montserrat,sans-serif;font-size:14px}
 .download-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0}
 .logo-grid,.swatches{display:grid;grid-template-columns:1fr;gap:16px}
 .tile{padding:28px 20px;margin:0}
@@ -1462,10 +1685,14 @@ def brand_page() -> None:
 @media(min-width:1024px){.swatches{grid-template-columns:1fr 1fr 1fr 1fr}}
 @page { size: letter; margin: 0.7in; }
 @media print {
-  #proto-banner, .site-header, .site-footer, .phone-bar, .skip, .download-bar { display: none !important; }
-  body { padding-top: 0 !important; background: #fff; }
-  .cover { min-height: auto; page-break-after: always; }
-  .band { break-inside: avoid; }
+  #proto-banner, .site-header, .site-footer, .phone-bar, .skip, .download-bar, .nav-toggle { display: none !important; }
+  body { padding-top: 0 !important; padding-bottom: 0 !important; background: #fff; font-size: 11pt; }
+  .cover { min-height: auto; break-after: page; display: flex; }
+  .cover-card { margin-inline: auto; }
+  .band { break-before: page; }
+  .logo-grid, .swatches, .grid, .tile, .spec { break-inside: avoid; }
+  .tile img, .cover-card img { max-height: 160px; width: auto; }
+  .tile-navy img { max-height: 90px; }
 }
 </style>
 """

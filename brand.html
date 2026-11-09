@@ -26,7 +26,7 @@
 .cover-tagline{color:#fff;font-size:1.15rem}
 .cover-credit{color:#c5ced6}
 .cover-credit a{color:#fff}
-.section-label{letter-spacing:.18em;text-transform:uppercase;color:#0e3060;font-family:Montserrat,sans-serif;font-size:.75rem}
+.section-label{letter-spacing:.16em;text-transform:uppercase;color:#0e3060;font-family:Montserrat,sans-serif;font-size:14px}
 .download-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0}
 .logo-grid,.swatches{display:grid;grid-template-columns:1fr;gap:16px}
 .tile{padding:28px 20px;margin:0}
@@ -44,10 +44,14 @@
 @media(min-width:1024px){.swatches{grid-template-columns:1fr 1fr 1fr 1fr}}
 @page { size: letter; margin: 0.7in; }
 @media print {
-  #proto-banner, .site-header, .site-footer, .phone-bar, .skip, .download-bar { display: none !important; }
-  body { padding-top: 0 !important; background: #fff; }
-  .cover { min-height: auto; page-break-after: always; }
-  .band { break-inside: avoid; }
+  #proto-banner, .site-header, .site-footer, .phone-bar, .skip, .download-bar, .nav-toggle { display: none !important; }
+  body { padding-top: 0 !important; padding-bottom: 0 !important; background: #fff; font-size: 11pt; }
+  .cover { min-height: auto; break-after: page; display: flex; }
+  .cover-card { margin-inline: auto; }
+  .band { break-before: page; }
+  .logo-grid, .swatches, .grid, .tile, .spec { break-inside: avoid; }
+  .tile img, .cover-card img { max-height: 160px; width: auto; }
+  .tile-navy img { max-height: 90px; }
 }
 </style>
 
@@ -56,7 +60,7 @@
 </script>
 
 </head>
-<body>
+<body class="is-brand">
 <a class="skip" href="#main">Skip to content</a>
 <!--
   ╔══════════════════════════════════════════════════════════════╗
@@ -139,7 +143,7 @@
     <div style="background:#1e293b; padding:24px 28px; display:flex; justify-content:space-between; align-items:flex-start;">
       <div>
         <div style="font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#f59e0b; margin-bottom:6px;">Performance Analysis</div>
-        <h2 style="color:#fff; font-size:1.2rem; font-weight:800; margin:0;">Site Speed Report</h2>
+        <p style="color:#fff; font-size:1.2rem; font-weight:800; margin:0;">Site Speed Report</p>
         <p style="color:rgba(255,255,255,.6); font-size:.82rem; margin:4px 0 0;">Prototype vs. Projected React Build</p>
       </div>
       <button
@@ -265,14 +269,14 @@
   </div>
   <div class="nav-sheet" id="nav-sheet">
     <div class="wrap mega">
-      <div class="nav-group"><h2>Dining Cruises</h2><a href="/dining-cruises/">Dining Cruises</a>
+      <div class="nav-group"><p class="nav-label">Dining Cruises</p><a href="/dining-cruises/">Dining Cruises</a>
 <a href="/dining-cruises/dinner/">Premier Seattle Dinner Cruise</a>
 <a href="/dining-cruises/weekend-brunch-cruise/">Weekend Brunch Cruise</a>
 <a href="/dining-cruises/supper/">Sunday Supper Cruise</a>
 <a href="/taco-thursday-seattle-lakes-cruise-tour/">Taco Thursday</a>
 <a href="/lunch-cruises/">Lunch Cruises</a>
 <a href="/cruise-calendar/">Cruise Calendar</a>
-<a href="/gift-cards/">Gift Cards</a></div><div class="nav-group"><h2>Seasonal Cruises</h2><a href="/holiday-cruises/">Holiday Cruises</a>
+<a href="/gift-cards/">Gift Cards</a></div><div class="nav-group"><p class="nav-label">Seasonal Cruises</p><a href="/holiday-cruises/">Holiday Cruises</a>
 <a href="/parade-of-lights-cruises/">Parade of Lights</a>
 <a href="/thanksgiving-day-cruise/">Thanksgiving Day Cruise</a>
 <a href="/holiday-cruises/holiday-dinner-cruise/">Holiday Dinner Cruise</a>
@@ -297,7 +301,7 @@
 <a href="/11-21-26-indiana-uw-sailgating/">Sailgating: Indiana at UW</a>
 <a href="/11-07-26-pennstate-uw-sailgating/">Sailgating: Penn State at UW</a>
 <a href="/10-09-26-iowa-hawkeyes-uw-sailgating/">Sailgating: Iowa at UW</a>
-<a href="/09-06-26-applecup-wsuvsuw-sailgating/">Sailgating: Apple Cup</a></div><div class="nav-group"><h2>Private Events</h2><a href="/private-events/">Private Events</a>
+<a href="/09-06-26-applecup-wsuvsuw-sailgating/">Sailgating: Apple Cup</a></div><div class="nav-group"><p class="nav-label">Private Events</p><a href="/private-events/">Private Events</a>
 <a href="/request-a-proposal/">Request a Proposal</a>
 <a href="/groups/">Groups and deck rentals</a>
 <a href="/special-occasions/">Special Occasions</a>
@@ -308,7 +312,7 @@
 <a href="/fleet/the-sightseer/">Sightseer</a>
 <a href="/sightseer-cruises/">Sightseer Cruises</a>
 <a href="/vendor-partnerships/">Vendor Partnerships</a>
-<a href="/nonprofit-partner-program/">Nonprofit Partner Program</a></div><div class="nav-group"><h2>Plan Your Visit</h2><a href="/directionsports/">Directions and ports</a>
+<a href="/nonprofit-partner-program/">Nonprofit Partner Program</a></div><div class="nav-group"><p class="nav-label">Plan Your Visit</p><a href="/directionsports/">Directions and ports</a>
 <a href="/directionsports/mohai/">MOHAI</a>
 <a href="/directionsports/carillon-point-marina/">Carillon Point Marina</a>
 <a href="/directionsports/kirkland-marina-park/">Kirkland Marina Park</a>
@@ -317,7 +321,7 @@
 <a href="/directionsports/waterwayshomeport/">Lake Union Piers</a>
 <a href="/hotel-partners/">Hotel Partners</a>
 <a href="/faqs/">FAQs</a>
-<a href="/gallery/">Gallery</a></div><div class="nav-group"><h2>About</h2><a href="/about-us/">About Us</a>
+<a href="/gallery/">Gallery</a></div><div class="nav-group"><p class="nav-label">About</p><a href="/about-us/">About Us</a>
 <a href="/careers/">Careers</a>
 <a href="/about-us/blog/">Journal</a>
 <a href="/memberships/">Memberships</a>
@@ -329,7 +333,6 @@
 
 
 <main id="main">
-  <p class="wrap" style="padding-top:18px"><a href="/">Prototype home</a></p>
   <header class="cover"><div class="cover-card">
     <img src="/img/logo-lockup.png" alt="Waterways Cruises and Events">
     <p class="eyebrow">Visual identity standards</p>
@@ -392,12 +395,12 @@
     <p class="lede">Headlines are Montserrat. Body text is ABeeZee. Both at regular weight.</p>
     <p class="display-sample">Dining cruises and private events on Seattle's lakes.</p>
     <p class="body-sample">Experience Seattle from a new perspective with Waterways Cruises &amp; Events. Based in Fishermen's Terminal, we offer experiences on Lake Union and Lake Washington, from public dining cruises to fully private charters and events.</p>
-    <p>Body text is 18px. Buttons use Montserrat.</p>
+    <p>Body text is 18px on a phone and 20px on a wide screen. Buttons use Montserrat.</p>
   </div></section>
   <section class="band band-paper" id="buttons"><div class="wrap">
     <p class="section-label">Section 04</p>
     <h2>Buttons</h2>
-    <p class="lede">Navy fill with white type. The hover state inverts. Every target is at least 44 pixels tall. On a phone, a pair of actions stacks full width.</p>
+    <p class="lede">Navy fill with white type. The hover state inverts. Every target is at least 48 pixels tall. On a phone, a pair of actions stacks full width.</p>
     <p class="btn-row"><a class="btn" href="#buttons">Primary action</a><a class="btn btn-ghost" href="#buttons">Secondary action</a></p>
     <div class="tile tile-navy" style="padding:24px;margin-top:18px"><a class="btn btn-light" href="#buttons">On navy</a></div>
   </div></section>
@@ -526,9 +529,7 @@
 <li><a href="/blog/sailing-north-from-tahiti-to-seattle/">sailing north from tahiti to seattle</a></li>
 <li><a href="/blog/big-congratulations-class-of-2017/">big congratulations class of 2017</a></li>
 <li><a href="/blog/the-great-experiment-we-celebrate-july-4th/">the great experiment we celebrate july 4th</a></li>
-<li><a href="/blog/senior-cruises-senior-blog/">senior cruises senior blog</a></li></ul></div><div><h2>Also on this build</h2><ul><li><a href="/nonprofit-partner-program-application/">Nonprofit application</a></li>
-<li><a href="/brand.html">Brand guide</a></li>
-<li><a href="/Waterways-SEO-AEO-Compare.html">SEO / AEO compare</a></li></ul></div>
+<li><a href="/blog/senior-cruises-senior-blog/">senior cruises senior blog</a></li></ul></div>
   </div>
   <div class="wrap fine">
     <p>© <span id="year">2026</span> Waterways Cruises &amp; Events. <a href="/privacy-policy/">Privacy</a> · <a href="/about-us/blog/">Journal</a> · <a href="/careers/">Careers</a> · <a href="/gift-cards/">Gift Cards</a> · <a href="/brand.html">Brand guide</a></p>
