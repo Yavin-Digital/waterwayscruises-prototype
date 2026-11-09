@@ -1,6 +1,6 @@
 # Celebrity Cruises homepage, design notes
 
-Captured 2026-11-09 from https://www.celebritycruises.com/ with headless Chromium, a desktop Chrome user agent, and a second pass at 390 with an iPhone user agent. The site returned HTTP 200. Screenshots: `celebrity-1440.png`, `celebrity-390.png`, and the first-screen crops beside them. This file is reference only. It is excluded from the public site. Nothing here is copied onto Waterways.
+Captured 2026-11-09 from https://www.celebritycruises.com/ with headless Chromium, a desktop Chrome user agent, and a second pass at 390 with an iPhone user agent. The site returned HTTP 200. Full-page shots were taken at 1440 and 390, plus first-screen crops. The crops kept beside this note are `celebrity-fold-1440.png` and `celebrity-fold-390.png`. This folder is reference only. It is excluded from the public site. Nothing here is copied onto Waterways.
 
 ## Header and nav
 
