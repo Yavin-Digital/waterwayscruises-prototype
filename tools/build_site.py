@@ -403,39 +403,59 @@ def nav_html(path: str) -> str:
 
 
 def footer_html() -> str:
-    cols = []
-    journal = [("Journal hub", "/about-us/blog/")] + [
-        (p.strip("/").split("/")[-1].replace("-", " "), p) for p in KEEP if p.startswith("/blog/")
-    ]
-    extra_nav = NAV + [
-        ("Journal posts", journal),
-    ]
-    for label, links in extra_nav:
-        items = "\n".join(f'<li><a href="{href}">{esc(name)}</a></li>' for name, href in links)
-        cols.append(f"<div><h2>{esc(label)}</h2><ul>{items}</ul></div>")
+    def social(href: str, label: str, svg: str) -> str:
+        return (
+            f'<a href="{href}" aria-label="{esc(label)}">'
+            f'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">{svg}</svg>'
+            f"</a>"
+        )
+
+    icons = "".join(
+        [
+            social(
+                "https://www.facebook.com/waterwayscruises",
+                "Facebook",
+                '<path fill="currentColor" d="M14.5 8.5V6.8c0-.7.5-1 1.2-1H17V3h-2.2C12.2 3 11 4.4 11 6.6v1.9H9v2.8h2V21h3.2v-9.7h2.2l.4-2.8h-2.3z"/>',
+            ),
+            social(
+                "https://www.instagram.com/waterwayscruises/",
+                "Instagram",
+                '<path fill="currentColor" d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm8 1.8H8A3.2 3.2 0 0 0 4.8 8v8A3.2 3.2 0 0 0 8 19.2h8A3.2 3.2 0 0 0 19.2 16V8A3.2 3.2 0 0 0 16 4.8zM12 8.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 1.6A2.2 2.2 0 1 0 14.2 12 2.2 2.2 0 0 0 12 9.8zM17.4 6.4a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9z"/>',
+            ),
+            social(
+                "https://www.tiktok.com/@waterwayscruises",
+                "TikTok",
+                '<path fill="currentColor" d="M14 3h2.1a4.6 4.6 0 0 0 3.4 3.2v2.2a6.7 6.7 0 0 1-3.4-1v6.3a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.3a3.3 3.3 0 1 0 2.6 3.2V3z"/>',
+            ),
+            social(
+                "https://www.tripadvisor.com/Attraction_Review-g60878-d1130187",
+                "TripAdvisor",
+                '<path fill="currentColor" d="M12 6.2c2.4 0 4.6.8 6.4 2.1l1.6-1.6 1.2 1.2-1.5 1.5A9.2 9.2 0 0 1 21.8 13H2.2a9.2 9.2 0 0 1 2.1-3.6L2.8 7.9 4 6.7l1.6 1.6A11 11 0 0 1 12 6.2zM7.2 13a2.6 2.6 0 1 0 2.6 2.6A2.6 2.6 0 0 0 7.2 13zm9.6 0a2.6 2.6 0 1 0 2.6 2.6 2.6 2.6 0 0 0-2.6-2.6zM7.2 14.6a1 1 0 1 1-1 1 1 1 0 0 1 1-1zm9.6 0a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>',
+            ),
+            social(
+                "https://www.yelp.com/biz/waterways-cruises-seattle",
+                "Yelp",
+                '<path fill="currentColor" d="M11.2 13.6 8.4 21c-.2.5.3 1 .8.7l3.2-1.8c.4-.2.5-.7.3-1.1l-1.5-4.8c-.2-.4-.8-.5-1-.4zm1.2-1.2 5.2 1.4c.5.1.8.7.5 1.1l-2.4 3.4c-.3.4-.9.4-1.2 0l-2.6-4.8c-.2-.4 0-.9.5-1.1zM12.6 11 14 6.2c.2-.5-.2-1-.7-1l-4.2.6c-.5.1-.7.6-.5 1.1l2.6 4.4c.3.4.9.4 1.2-.3zm-1.8.2L8.2 7.4c-.3-.4-.9-.4-1.2 0L4.6 11c-.2.5 0 1 .5 1.1l4.8.6c.5 0 .8-.4.7-1zM10.8 13l-4.6 2.4c-.5.2-.6.8-.3 1.2l2.2 3.2c.3.4.9.4 1.2 0l2.2-4.8c.2-.5-.1-1-.7-1z"/>',
+            ),
+        ]
+    )
     return f"""
 <footer class="site-footer">
-  <div class="wrap footer-grid">
-    <div>
-      <h2>Waterways Cruises &amp; Events</h2>
-      <p>For An Unforgettable Experience, Just Add Water®</p>
-      <p>Fishermen's Terminal Dock 9<br>3919 18th Ave W<br>Seattle, WA 98119</p>
-      <p>Office, by appointment, and mailing address:<br>4005 20th Ave W, Suite 228<br>Seattle, WA 98199</p>
-      <p><a href="tel:2062232060">(206) 223-2060</a><br>
-      <a href="mailto:contact@waterwayscruises.com">contact@waterwayscruises.com</a><br>
-      <a href="mailto:events@waterwayscruises.com">events@waterwayscruises.com</a></p>
-      <p>
-        <a href="https://www.facebook.com/waterwayscruises">Facebook</a> ·
-        <a href="https://www.instagram.com/waterwayscruises/">Instagram</a> ·
-        <a href="https://www.tiktok.com/@waterwayscruises">TikTok</a> ·
-        <a href="https://www.tripadvisor.com/Attraction_Review-g60878-d1130187">TripAdvisor</a> ·
-        <a href="https://www.yelp.com/biz/waterways-cruises-seattle">Yelp</a>
-      </p>
-    </div>
-    {''.join(cols)}
+  <div class="wrap footer-main">
+    <a class="footer-logo" href="/"><img src="/img/logo-lockup.png" width="168" height="107" alt="Waterways Cruises and Events"></a>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/dining-cruises/">Dining</a>
+      <a href="/private-events/">Private events</a>
+      <a href="/fleet/">Fleet</a>
+      <a href="/cruise-calendar/">Calendar</a>
+      <a href="/about-us/">About</a>
+      <a href="/contact-us/">Contact</a>
+    </nav>
+    <p class="footer-facts">Fishermen's Terminal Dock 9, 3919 18th Ave W, Seattle, WA 98119 <a href="tel:2062232060">(206) 223-2060</a> <a href="mailto:contact@waterwayscruises.com">contact@waterwayscruises.com</a></p>
+    <div class="footer-social">{icons}</div>
   </div>
   <div class="wrap fine">
-    <p>© <span id="year">2026</span> Waterways Cruises &amp; Events. <a href="/privacy-policy/">Privacy</a> · <a href="/about-us/blog/">Journal</a> · <a href="/careers/">Careers</a> · <a href="/gift-cards/">Gift Cards</a> · <a href="/brand.html">Brand guide</a></p>
+    <p>© <span id="year">2026</span> Waterways Cruises &amp; Events. <a href="/privacy-policy/">Privacy</a> · <a href="/brand.html">Brand guide</a></p>
   </div>
 </footer>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
