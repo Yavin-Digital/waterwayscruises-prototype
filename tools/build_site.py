@@ -1606,7 +1606,7 @@ def sitemap(paths: list[str]) -> None:
         "  - PROJECT_GUIDE.md\n"
         "  - README.md\n"
         "  - NOTES.md\n"
-        "  - private\n"
+        "  - private/reference\n"
     )
 
 

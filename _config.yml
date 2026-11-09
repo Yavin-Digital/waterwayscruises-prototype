@@ -8,4 +8,4 @@ exclude:
   - PROJECT_GUIDE.md
   - README.md
   - NOTES.md
-  - private
+  - private/reference
