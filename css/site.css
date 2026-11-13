@@ -1142,3 +1142,7 @@ body.offer-open { overflow: hidden; }
   .offer-copy { padding: 36px 36px 32px; }
   .offer-copy .btn { width: auto; min-width: 190px; }
 }
+
+/* The finder bar overlaps the next section by design; don't clip it on the video hero. */
+.finder-hero.video-hero { overflow: visible; }
+.finder-hero.video-hero .bg-video { clip-path: inset(0); }
